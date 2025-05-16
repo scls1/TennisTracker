@@ -1,0 +1,18 @@
+ion-toolbar {
+    position: relative; /* Necesario para posicionar elementos hijos de forma absoluta */
+  }
+  
+  .logo-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Centra horizontalmente */
+    top: 50%;
+    transform: translate(-50%, -50%); /* Centra completamente en el eje Y */
+  }
+  
+    .logo {
+      margin: 10px;
+      max-height: 30px;
+      width: auto; /* Asegura que el logo mantenga su proporción */
+    }
+    

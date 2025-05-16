@@ -1,0 +1,57 @@
+.register-page {
+    --background: url('/assets/images/login_bg.jpg') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .register-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 50%;
+  }
+
+.logo-container{
+    display: flex;
+    margin-bottom: 30px;
+}
+    
+  
+    .register-logo {
+        max-width: 70px;
+        margin-bottom: 15px;
+        margin-top: 15px;
+      }
+      
+  .register-button {
+  margin-top: 30px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+    .login-text {
+        color:#d8dad8;
+        margin-bottom: 20px;
+    }
+  
+    .login-text a {
+        color:#d8dad8;
+      font-weight: bold;
+    }
+  
+    .google-button{
+        background:#DB4437;
+    }
+
+
+    ion-input {
+        --padding-start: 10px;
+        --padding-end: 10px;
+        border-radius: 5px;
+    }
+    .input-password{
+        display: inline-flex;
+        align-items: center;
+    }

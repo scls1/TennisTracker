@@ -1,0 +1,66 @@
+
+.jugadores-title {
+    text-align: center; /* Centra el texto */
+    margin: 20px 0; /* Agrega márgenes en la parte superior e inferior */
+    font-size: 24px; /* Tamaño de la fuente */
+    font-weight: bold; /* Opcional, hace el texto más negrita */
+  }
+
+.jugadores{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+
+}
+
+  .jugador-card {
+    border-radius: 10px;
+    margin: 0 5% 10px 5%;
+    box-shadow: 0px 0px 2px 0px hsla(0, 0%, 100%, 0.644);
+    width: 80%;
+    justify-content: center;
+  
+    
+
+    ion-avatar {
+      width: 60px;
+      height: 60px;
+      margin: auto;
+      border: 2px solid #dedede;
+    }
+  
+    .nombre-jugador {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+  
+
+    .info-linea {
+      font-size: 0.95rem;
+    }
+    .info-titulo {
+      display: flex;
+    }
+
+    .icon-genero {
+      position: absolute;
+      top: 8px;
+      right: -20px;
+      font-size: 20px;
+      z-index: 10;
+    }
+  
+    .icon-genero.female {
+      color: #e91e63; // rosa
+    }
+  
+    .icon-genero.male {
+      color: #3f51b5; // azul
+    }
+  }
+
+  .jugador-card:hover {
+    box-shadow: 0px 0px 0px 0px hsla(0, 0%, 100%, 0.644);
+  }

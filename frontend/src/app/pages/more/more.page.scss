@@ -1,0 +1,28 @@
+ion-item.cerrar {
+    justify-content: flex-end;
+  }
+ion-list{
+    height: 100%;
+}
+
+ion-item h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+  @keyframes slideInFromRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .slide-in {
+    animation: slideInFromRight 0.2s ease-out;
+  }

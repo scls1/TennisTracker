@@ -1,0 +1,25 @@
+<app-topbar></app-topbar>
+
+<ion-content >
+  <ion-avatar>
+    <img alt="Profile image of one of the coaches of Breakpoint Tennis Tracker" [src]="'assets/images/' + userFoto" />
+  </ion-avatar>
+  <ion-title >{{userName}}</ion-title>
+  <div class="estadisticas">
+    <div>
+      <h3>{{numJugadores}}</h3>
+      <h3>Players</h3>
+    </div>
+    <div>
+      <h3>{{individualesGanados}}/{{individuales.length}}</h3>
+      <h3>Singles</h3>
+    </div>
+    <div>
+      <h3>{{doblesGanados}}/{{dobles.length}}</h3>
+      <h3>Doubles</h3>
+    </div>
+  </div>
+  <div class="start">
+    <ion-button size="large"  color="secondary" disabled>Start</ion-button>
+  </div>
+</ion-content>

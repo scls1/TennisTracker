@@ -1,0 +1,30 @@
+
+  .actividad-title {
+    text-align: center; /* Centra el texto */
+    margin: 20px 0; /* Agrega márgenes en la parte superior e inferior */
+    font-size: 24px; /* Tamaño de la fuente */
+    font-weight: bold; /* Opcional, hace el texto más negrita */
+  }
+
+  .error-message {
+    text-align: center; /* Centra el texto */
+    margin: 20px; /* Espacio superior */
+  }
+
+  .columna-resultado{
+    max-width: 10%;
+  }
+
+  ion-card{
+    margin: 10px 20px 10px 20px; /* Espacio entre tarjetas */
+    padding: 10px; /* Espacio interno de la tarjeta */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+  }
+
+  .fecha-partido{
+    font-size: 13px; /* Tamaño de la fuente */
+    margin-left: 10%;
+    margin-top: 20px;
+  }
+ 

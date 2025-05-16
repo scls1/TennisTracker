@@ -1,0 +1,54 @@
+<app-topbar></app-topbar>
+
+<ion-content class="profile-content">
+    <div class="container">
+      <h2 class="title">Create Player</h2>
+  
+    <ion-list style="border-radius: 20px; padding: 30px;">
+        <ion-item class="avatar-uploader"  (click)="fileInput.click()" lines="none">
+            <img [src]="player.photo && player.photo !== '' ? 'assets/images/' + player.photo : 'assets/images/default.jpg'" alt="Avatar">
+        </ion-item>
+        <input type="file" hidden (change)="onPhotoSelected($event)" #fileInput accept="image/*">
+  
+        <ion-item>
+          <ion-label position="stacked">Name</ion-label>
+          <ion-input name="name" [(ngModel)]="player.name"></ion-input>
+          @if (nameError) {
+            <p style="padding-left: 1ch; color:red;">Field required</p>
+          }
+        </ion-item>
+  
+        <ion-item>
+          <ion-label position="stacked">Age</ion-label>
+          <ion-input name="age" [(ngModel)]="player.age" type="number" step="1"min="1" max="99"></ion-input>
+          @if (ageError) {
+            <p style="padding-left: 1ch; color:red;">Field required</p>
+          }
+        </ion-item>
+        
+        <ion-item>
+            <ion-label position="stacked">Height (m)</ion-label>
+            <ion-input
+            [(ngModel)]="player.height"
+            type="number"
+            step="0.01"
+            min="1.0"
+            max="2.5"
+            ></ion-input>
+            @if (heightError) {
+              <p style="padding-left: 1ch; color:red;">Field required</p>
+            }
+        </ion-item>
+        
+        <ion-item lines="none">
+          <ion-label  position="stacked">Gender</ion-label>
+          <ion-select interface="popover" name="gender" [(ngModel)]="player.gender">
+            <ion-select-option [value]="false">Male</ion-select-option>
+            <ion-select-option [value]="true">Female</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button expand="block" shape="round" class="create-button" (click)="submit(player)">Create</ion-button>
+      </ion-list>
+    </div>
+  </ion-content>

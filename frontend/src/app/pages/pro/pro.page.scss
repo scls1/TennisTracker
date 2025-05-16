@@ -1,0 +1,76 @@
+/* Estilos comunes */
+.subscription-card {
+  margin-bottom: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+ion-card-header {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.light-mode ion-card-subtitle {
+  font-weight: 500;
+  color: #666;
+}
+
+.dark-mode ion-card-subtitle {
+  font-weight: 500;
+  color: #000000; /* Color claro para el subtítulo en modo oscuro */
+}
+
+ion-card-title {
+  font-size: 1.6rem;
+}
+
+/* Títulos en modo claro y oscuro */
+.light-mode:ion-card-title {
+  color: #333; /* Título en gris oscuro para modo claro */
+}
+
+.dark-mode ion-card-title {
+  color: #fff; /* Título en blanco para modo oscuro */
+}
+
+ul {
+  padding-left: 20px;
+  color: #333;
+}
+
+ion-button {
+  margin-top: 15px;
+  border-radius: 30px;
+  font-weight: bold;
+}
+
+/* Modo claro por defecto */
+.light-mode:nth-child(1) {
+  background: linear-gradient(145deg, #f0f4f8, #dde2e7); /* Lightest tone */
+}
+
+.light-mode:nth-child(2) {
+  background: linear-gradient(145deg, #e1e6f0, #ccd4e6); /* Medium tone */
+}
+
+.light-mode:nth-child(3) {
+  background: linear-gradient(145deg, #c7d1e4, #99b6d8); /* Darker tone */
+}
+
+/* Modo oscuro */
+.dark-mode:nth-child(1) {
+  background: linear-gradient(145deg, #d1d8e1, #b0b8c4); /* Más oscuro, tono suave */
+}
+
+.dark-mode:nth-child(2) {
+  background: linear-gradient(145deg, #a0b4d4, #7f8c9e); /* Tono intermedio más oscuro */
+}
+
+.dark-mode:nth-child(3) {
+  background: linear-gradient(145deg, #6f7b9e, #754a76); /* Más oscuro, tono intenso */
+}
+
+ul{
+  list-style-type: none;
+}

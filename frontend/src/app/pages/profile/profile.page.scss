@@ -1,0 +1,36 @@
+
+  ion-avatar {
+    --border-radius: 4px;
+    width: 150px;
+    max-width: 80%;
+    height: auto;
+    place-self: center;
+    margin-top: 50px;
+  }
+  ion-title{
+    margin-top: 20px;
+    justify-self: center;
+  }
+
+  .estadisticas {
+    display: flex;
+    justify-content: center; /* Centra los divs hijos horizontalmente */
+    gap: 24px; /* Espacio entre los divs */
+    margin-top: 20px; /* Opcional, separación superior */
+  }
+  
+  .estadisticas > div {
+    display: flex;
+    flex-direction: column; /* H3 uno encima del otro */
+    align-items: center;    /* Centra los h3 dentro del div */
+    text-align: center;
+  }
+  h3{
+    margin: 5px;
+  }
+
+  .start{
+    align-self: center;
+    justify-self: center;
+    margin-top: 25%;
+  }

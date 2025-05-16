@@ -1,0 +1,105 @@
+ion-title{
+    font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: var(--ion-text-color, #222);
+}
+
+.error-message {
+    text-align: center; /* Centra el texto */
+    margin: 20px; /* Espacio superior */
+  }
+  ion-card{
+    margin: 10px 20px 10px 20px; /* Espacio entre tarjetas */
+    padding: 10px; /* Espacio interno de la tarjeta */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+  }
+
+.detalle-player-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .charts-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+  }
+  
+  .chart-card {
+    text-align: center;
+    max-width: 180px;
+  }
+  
+  .circular-chart {
+    display: block;
+    margin: 10px auto;
+    max-width: 100%;
+    max-height: 250px;
+  }
+  
+  .circle-svg {
+    width: 100%;
+    height: auto;
+  }
+  
+  .circle-bg {
+    fill: none;
+    stroke: #eee;
+    stroke-width: 3.8;
+  }
+  
+  .circle {
+    fill: none;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    stroke: currentColor;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    transition: stroke-dasharray 0.6s ease;
+  }
+  
+  .percentage-text {
+    fill: #333;
+    font-size: 0.5em;
+    text-anchor: middle;
+  }
+  
+  .blue {
+    color: #4e91f9;
+  }
+  
+  .green {
+    color: #4cd964;
+  }
+  .error-message {
+    text-align: center; /* Centra el texto */
+    margin: 20px; /* Espacio superior */
+  }
+
+  .columna-resultado{
+    max-width: 10%;
+  }
+
+  ion-card{
+    margin: 10px 20px 10px 20px; /* Espacio entre tarjetas */
+    padding: 10px; /* Espacio interno de la tarjeta */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+  }
+
+  .fecha-partido{
+    font-size: 13px; /* Tamaño de la fuente */
+    margin-left: 10%;
+    margin-top: 20px;
+  }
+ 

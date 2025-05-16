@@ -8,7 +8,7 @@ const login = async(req, res = response) => {
         const { Email, Clave } = req.body;
         const usuarioBD = await Usuario.findOne({where: {Email:Email} });
         if (!usuarioBD) {
-            return res.status(400).json({
+            return res.json({
                 ok: false,
                 msg: 'Usuario o contraseña incorrectos',
                 token: ''
@@ -17,7 +17,7 @@ const login = async(req, res = response) => {
 
         const validPassword = bcrypt.compareSync(Clave, usuarioBD.Clave);
         if (!validPassword) {
-            return res.status(400).json({
+            return res.json({
                 ok: false,
                 msg: 'Usuario o contraseña incorrectos',
                 token: ''
@@ -33,7 +33,7 @@ const login = async(req, res = response) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(400).json({
+        return res.json({
             ok: false,
             msg: 'Error en login',
             token: ''

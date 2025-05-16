@@ -1,0 +1,193 @@
+<app-topbar></app-topbar>
+
+
+<ion-modal [isOpen]="isModalOpen" >
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="setOpen(false)">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title style="text-align:center;">Add Player</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-list style=" background-color: transparent;">
+        <ng-container *ngFor="let jugador of allPlayers">
+          <ion-item class="item-modal" [class.selected]="jugador.IdJugador === selectedPlayerId" (click)="addPlayer(jugador.IdJugador, jugador.Nombre)">
+            <ion-avatar>
+              <img [src]="'assets/images/' + jugador.Foto" alt="Foto de un jugador de tenis de la aplicación Breakpoint tennis tracker" />
+            </ion-avatar>
+            <ion-title>{{jugador.Nombre}}</ion-title>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+
+<ion-content class="ion-padding">
+  <ion-title class="title">Create Result</ion-title>
+
+  <ion-list class="first-jugador">
+
+    <ion-item class="item-jugador" lines="none" [ngClass]="{ 'shadowed-list': !isDark }"> 
+      <ion-label class="labelfont" position="fixed">Jugador 1</ion-label>
+      @if(!confirmedPlayer1){
+        <ion-input placeholder="Player 1 must be added" disabled name="jugador1"></ion-input>
+      }@else{
+        <div class="etiqueta">
+          <p>{{confirmedPlayerNombre1}}</p>
+          <ion-icon (click)="deletePlayer(1)" name="close-outline"></ion-icon>
+        </div>
+      }
+      
+      
+      <ion-button slot="end" (click)="setOpen(true, 1)">
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+    @if (jugador1Error) {
+        <p style="padding-left: 3ch; color:red;">Field required</p>
+    }
+  </ion-list>
+
+  <ion-list class="final-jugador">
+
+    <ion-item class="item-jugador" lines="none" [ngClass]="{ 'shadowed-list': !isDark }">
+      <ion-label class="labelfont" position="fixed">Jugador 2</ion-label>
+          @if(!confirmedPlayer2){
+        <ion-input
+            [(ngModel)]="jugador2Input"
+            (ionBlur)="actualizarJugador2()"
+            placeholder="Add Player"
+            name="rival1">
+          </ion-input>
+      }@else{
+        <div class="etiqueta">
+          <p>{{confirmedPlayerNombre2}}</p>
+          <ion-icon (click)="deletePlayer(2)" name="close-outline"></ion-icon>
+        </div>
+      }
+       
+      <ion-button slot="end" (click)="setOpen(true, 2)">
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-button>
+    
+    </ion-item>
+    @if (jugador2Error) {
+        <p style="padding-left: 3ch; color:red;">Field required</p>
+    }
+  </ion-list>  
+
+
+  <ion-list class="first-jugador">
+
+    <ion-item lines="none" class="toggle-button" [ngClass]="{ 'shadowed-list': !isDark }">
+      <ion-label>Doubles</ion-label>
+      <ion-toggle slot="end" class="boton-toggle" [(ngModel)]="partido.dobles" name="dobles"></ion-toggle>
+    </ion-item>
+  
+  </ion-list>
+
+    <!-- Campos extras si es dobles -->
+    <div *ngIf="partido.dobles">
+      <ion-list class="middle-jugador" >        
+        <ion-item class="item-jugador" lines="none" [ngClass]="{ 'shadowed-list': !isDark }">
+            <ion-label class="labelfont" position="fixed">Jugador 3</ion-label>
+            @if(!confirmedPlayer3){
+              <ion-input [(ngModel)]="jugador3Input" placeholder="Add Player" name="jugador3"></ion-input>
+            }@else{
+              <div class="etiqueta">
+                <p>{{confirmedPlayerNombre3}}</p>
+                <ion-icon (click)="deletePlayer(3)" name="close-outline"></ion-icon>
+              </div>
+            }
+            <ion-button slot="end" (click)="setOpen(true, 3)">
+              <ion-icon name="person-add-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+          @if (jugador3Error) {
+        <p style="padding-left: 3ch; color:red;">Field required</p>
+    }
+      </ion-list>
+    
+    <ion-list class="final-jugador">
+        <ion-item class="item-jugador" lines="none" [ngClass]="{ 'shadowed-list': !isDark }">
+          <ion-label class="labelfont" position="fixed">Jugador 4</ion-label>
+          @if(!confirmedPlayer4){
+            <ion-input [(ngModel)]="jugador4Input" placeholder="Add Player" name="jugador4"></ion-input>
+          }@else{
+            <div class="etiqueta">
+              <p>{{confirmedPlayerNombre4}}</p>
+              <ion-icon (click)="deletePlayer(4)" name="close-outline"></ion-icon>
+            </div>
+          }
+            <ion-button slot="end" (click)="setOpen(true, 4)">
+              <ion-icon name="person-add-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        @if (jugador4Error) {
+        <p style="padding-left: 3ch; color:red;">Field required</p>
+    }
+
+    </ion-list>
+
+      </div>
+      
+      <!-- Resultado -->
+        <ion-card>
+          <ion-card-content>
+            <div class="result-container">
+              <!-- Label a la izquierda -->
+              <div class="result-label">
+                Result
+              </div>
+
+              <!-- Inputs a la derecha -->
+              <div class="sets-container">
+                <!-- Sets Jugador 1 -->
+                <div class="sets-row">
+                  <ion-select
+                    *ngFor="let set of resultadoSets; let i = index"
+                    [(ngModel)]="set.jugador1"
+                    interface="popover"
+                    placeholder="0"
+                  >
+                    <ion-select-option *ngFor="let game of juegos" [value]="game">
+                      {{ game }}
+                    </ion-select-option>
+                  </ion-select>
+                </div>
+
+                <!-- Sets Jugador 2 -->
+                <div class="sets-row">
+                  <ion-select
+                    *ngFor="let set of resultadoSets; let i = index"
+                    [(ngModel)]="set.jugador2"
+                    interface="popover"
+                    placeholder="0"
+                  >
+                    <ion-select-option *ngFor="let game of juegos" [value]="game">
+                      {{ game }}
+                    </ion-select-option>
+                  </ion-select>
+                </div>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+
+
+       <ion-list style="background-color: transparent;">
+         <ion-button expand="full" type="submit" class="ion-margin-top" (click)="guardarResultado()">
+           <ion-icon></ion-icon>Guardar Resultado
+         </ion-button>
+       </ion-list>
+
+</ion-content>

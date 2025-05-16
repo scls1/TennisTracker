@@ -1,0 +1,36 @@
+
+ion-tab-bar{
+    contain: none;
+}
+
+  .fab-tab-button {
+    height: 70px;
+    border-radius: 50%;
+    background: white;
+    z-index: 100;
+    max-width: 70px;
+    color: #0265ac;
+    border: 4px solid #0076c9;
+    margin-top: -38px;
+  }
+  
+  .fab-tab-button ion-icon {
+    font-size: 32px;
+  }
+
+  div{
+    z-index: 100;
+    
+  }
+  .block {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  ion-modal {
+    --height: auto;
+    padding-top:50%;
+  }

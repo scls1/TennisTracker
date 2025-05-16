@@ -12,8 +12,7 @@ router.post('/', [
     check('Email', 'El argumento email es obligatorio').not().isEmpty(),
     check('Email', 'Formato de email invalido').isEmail(),
     check('Clave', 'El argumento clave es obligatorio').not().isEmpty(),
-    validarCampos,
-    validarJWT
+    validarCampos
 ],createUsuario);
 
 router.put('/:id', [

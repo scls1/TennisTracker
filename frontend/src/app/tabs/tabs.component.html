@@ -1,0 +1,51 @@
+<div>
+  <ion-modal id="ion-modal" trigger="open-modal" >
+    <ng-template>
+      <div class="opciones">
+        <ion-button expand="block" size="large" (click)="saveNavigation('/create-player')" (click)="navigateAndClose('/create-player')">
+          <ion-icon name="person-add-outline" slot="start"></ion-icon>
+          Jugador
+        </ion-button>
+    
+        <ion-button expand="block"  color="warning" size="large" (click)="saveNavigation('/create-partido')" (click)="navigateAndClose('/create-partido')">
+          <ion-icon name="tennisball-outline" slot="start"></ion-icon>
+          Partido
+        </ion-button>
+    
+        <ion-button expand="block" color="medium" size="large" (click)="saveNavigation('/create-resultado')"  (click)="navigateAndClose('/create-resultado')">
+          <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
+          Resultado
+        </ion-button>
+      </div>
+    </ng-template>
+  </ion-modal>
+</div>
+
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button (click)="saveNavigation('/home')" [routerLink]="['/home']">
+      <ion-label>Home</ion-label>
+      <ion-icon name="home-outline"></ion-icon>
+    </ion-tab-button>
+    
+    <ion-tab-button (click)="saveNavigation('/players')" [routerLink]="['/players']">
+      <ion-icon name="people-outline"></ion-icon>
+      <ion-label>Players</ion-label>
+    </ion-tab-button>
+    
+    <ion-tab-button class="fab-tab-button" id="open-modal" >
+        <ion-icon name="add-outline"></ion-icon>
+    </ion-tab-button>
+
+    <ion-tab-button (click)="saveNavigation('/profile')" [routerLink]="['/profile']">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button [routerLink]="['/more']">
+      <ion-icon name="menu-outline"></ion-icon>
+      <ion-label>More</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

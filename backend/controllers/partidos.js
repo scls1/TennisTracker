@@ -11,7 +11,7 @@ const getPartidos = async(req, res) => {
             if(!partido){
                 return res.json({
                     ok: false,
-                    msg: 'partido no encontrado'
+                    msg: 'Match not found'
                 });
             }
              return res.json({
@@ -21,7 +21,9 @@ const getPartidos = async(req, res) => {
             });
         }
 
-        const partidos = await Partido.findAll();
+        const partidos = await Partido.findAll({
+            order:[['FechaHoraEntrada','DESC']]
+        });
         res.json({
             partidos,
             ok: true,
@@ -44,7 +46,7 @@ const getPartidosPorJugador = async(req,res) =>{
         if(!jugadorExiste){
             return res.json({
                 ok: false,
-                msg: 'jugador no encontrado'
+                msg: 'Player not found'
             });
         }
 
@@ -55,7 +57,9 @@ const getPartidosPorJugador = async(req,res) =>{
                 { Jugador3: id },
                 { Jugador4: id }
             ]
-     }});
+     },
+     order:[['FechaHoraEntrada','DESC']] 
+    });
 
      res.json({
         ok: true,
@@ -79,14 +83,14 @@ const getPartidosPorEntrenador = async(req, res) => {
         if(!entrenadorExiste){
             return res.json({
                 ok: false,
-                msg: 'entrenador no encontrado'
+                msg: 'Coach not found'
             });
         }
         const jugadores = await Jugador.findAll({where:{Entrenador:id}})
         if(jugadores.length == 0){
             return res.json({
                 ok: false,
-                msg:'no hay jugadores creados'
+                msg:'No players found for this coach'
             });
         }
         const idsJugadores = jugadores.map(j => j.IdJugador);
@@ -97,7 +101,16 @@ const getPartidosPorEntrenador = async(req, res) => {
                 { Jugador3: { [Op.in]: idsJugadores } },
                 { Jugador4: { [Op.in]: idsJugadores } }
             ]
-        }});
+        },
+        order: [['FechaHoraEntrada', 'DESC']]
+    });
+        if(partidos.length == 0){
+            return res.json({
+                ok: false,
+                msg:'No matches found for this coach'
+            });
+        }
+
         res.json({
             ok:true,
             msg:'getPartidosPorEntrenador',
@@ -116,17 +129,28 @@ const createPartido = async(req,res) => {
     try {
         let {Jugador1, Jugador2, Jugador3, Jugador4, Pareja, Rival1, Rival2, NumSets, Tipo} = req.body;
 
+        const jugadores = [Jugador1, Jugador2, Jugador3, Jugador4];
+
+        const duplicados = jugadores.filter((j, index) => j && jugadores.indexOf(j) !== index);
+
+        if (duplicados.length > 0) {
+            return res.json({
+            ok: false,
+            msg: 'Duplicate players are not allowed.'
+            });
+        }
+
         if (Tipo !== undefined && Tipo !== 0 && Tipo !== 1) {
-            return res.status(400).json({
+            return res.json({
                 ok: false,
-                msg: "El campo Tipo solo puede ser 0 (Individual) o 1 (Dobles)"
+                msg: "The field Tipo can only be 0 (Individual) or 1 (Doubles)"
             });
         }
         
         if (NumSets !== undefined && NumSets !== 1 && NumSets !== 3 && NumSets !== 5) {
-            return res.status(400).json({
+            return res.json({
                 ok: false,
-                msg: "El campo NumSets solo puede ser 1, 3 o 5"
+                msg: "The field NumSets can only be 1, 3 or 5"
             });
         }
 
@@ -134,7 +158,7 @@ const createPartido = async(req,res) => {
         if(!jugadorExiste){
             return res.json({
                 ok: false,
-                msg: 'Error al crear partido'
+                msg: 'Player not found'
             })
         }
         
@@ -160,7 +184,7 @@ const createPartido = async(req,res) => {
 
     } catch (err) {
         console.error(err)
-        return res.status(400).json({
+        return res.json({
             ok: false,
             msg: 'Error al crear partido'
         });
@@ -175,7 +199,7 @@ const updatePartido = async (req, res) => {
         if (Tipo !== undefined && Tipo !== 0 && Tipo !== 1) {
             return res.status(400).json({
                 ok: false,
-                msg: "El campo Tipo solo puede ser 0 (Individual) o 1 (Dobles)"
+                msg: "The field Tipo can only be 0 (Individual) or 1 (Doubles)"
             });
         }
         // Buscar si el usuario existe
@@ -183,7 +207,7 @@ const updatePartido = async (req, res) => {
         if (!existePartido) {
             return res.status(400).json({
                 ok: false,
-                msg: 'No se ha encontrado el partido'
+                msg: 'Match not found'
             });
         }
 
@@ -224,13 +248,13 @@ const terminarPartido = async(req, res) => {
         if (!existePartido) {
             return res.status(400).json({
                 ok: false,
-                msg: 'No se ha encontrado el partido'
+                msg: 'Match not found'
             });
         }
         if(existePartido.FechaHoraSalida){
             return res.status(400).json({
                 ok:false,
-                msg: 'Este partido ya ha terminado'
+                msg: 'This match has already been finished'
             });
         }
         await existePartido.update({ 
@@ -267,7 +291,7 @@ const deletePartido = async(req,res) => {
         if(!partidoExiste){
             return res.status(400).json({
                 ok: false,
-                msg: 'Este partido no existe'
+                msg: 'This match does not exist'
             });
         }
 

@@ -10,7 +10,7 @@ const getJugadores = async(req, res) => {
             if(!jugador){
                 return res.json({
                     ok: false,
-                    msg: 'jugador no encontrado'
+                    msg: 'player not found'
                 });
             }
              return res.json({
@@ -41,12 +41,18 @@ const getJugadoresPorEntrenador = async(req,res = response) => {
         const entrenador = req.params.id;
         const existeEntrenador = await Usuario.findByPk(entrenador);
         if(!existeEntrenador){
-            return res.status(400).json({
+            return res.json({
                 ok: false,
-                msg: 'No existe este entrenador'
+                msg: 'Coach not found'
             });
         }
         const jugadores = await Jugador.findAll({where: {Entrenador:entrenador}});
+        if(jugadores.length === 0){
+            return res.json({
+                ok: false,
+                msg: 'No players found for this coach'
+            });
+        }
         res.json({
             ok: true,
             msg: 'getJugadoresPorEntrenador',
@@ -71,7 +77,7 @@ const createJugador = async(req,res) => {
         const existeEntrenador = await Usuario.findByPk(Entrenador);
         
         if(!existeEntrenador){
-            return res.status(400).json({
+            return res.json({
                 ok: false,
                 msg:'El entrenador no existe'
             });

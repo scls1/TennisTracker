@@ -1,0 +1,111 @@
+<app-topbar></app-topbar>
+
+<ion-content *ngIf="partido && marcador">
+  @if(!partido.nombre4){
+  <ion-card color="light">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="columna-nombre">{{ partido.nombre1 }}</ion-col>
+          <ng-container *ngFor="let set of marcador">
+                <ion-col class="columna-resultado">{{ set.set.marcador1 }}</ion-col>
+          </ng-container>
+          </ion-row> 
+          <ion-row>
+            <ion-col class="columna-nombre">{{ partido.nombre2 }}</ion-col>
+            <ng-container *ngFor="let set of marcador">
+              <ion-col class="columna-resultado">{{ set.set.marcador2 }}</ion-col>
+            </ng-container>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  }@else{
+    <ion-card color="light">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="columna-nombre">{{ partido.nombre1 }} / {{ partido.nombre2 }}</ion-col>
+            <ng-container *ngFor="let set of marcador">
+              <ion-col class="columna-resultado">{{ set.set.marcador1 }}</ion-col>
+            </ng-container>
+          </ion-row>
+          <ion-row>
+            <ion-col class="columna-nombre">{{ partido.nombre3 }} / {{ partido.nombre4 }}</ion-col>
+            <ng-container *ngFor="let set of marcador">
+              <ion-col class="columna-resultado">{{ set.set.marcador2 }}</ion-col>
+            </ng-container>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  }
+  <ion-title>Stats</ion-title>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Service</ion-card-title>
+    </ion-card-header>
+    <ion-card-content [ngClass]="{ 'dark-mode': isDark, 'light-mode': !isDark }">
+  
+      <div *ngFor="let stat of estadisticasServicio" class="stat-col">
+        <div class="stat-row">  
+          <div class="value left">{{ stat.valorJugador1 }}</div>
+  
+          <div class="bar-container">
+            <div class="bar bar-left" [style.width.%]="100 * stat.valorJugador1 / (stat.valorJugador1 + stat.valorJugador2)"></div>
+            <div class="bar bar-right" [style.width.%]="100 * stat.valorJugador2 / (stat.valorJugador1 + stat.valorJugador2)"></div>
+          </div>
+          
+          <div class="value right">{{ stat.valorJugador2 }}</div>
+          
+        </div>
+        <div class="label">{{ stat.nombre }}</div>
+      </div>
+  
+    </ion-card-content>
+  
+    <ion-card-header>
+      <ion-card-title>Return</ion-card-title>
+    </ion-card-header>
+    <ion-card-content [ngClass]="{ 'dark-mode': isDark, 'light-mode': !isDark }">
+  
+      <div *ngFor="let stat of estadisticasServicio" class="stat-col">
+        <div class="stat-row">  
+          <div class="value left">{{ stat.valorJugador1 }}</div>
+  
+          <div class="bar-container">
+            <div class="bar bar-left" [style.width.%]="100 * stat.valorJugador1 / (stat.valorJugador1 + stat.valorJugador2)"></div>
+            <div class="bar bar-right" [style.width.%]="100 * stat.valorJugador2 / (stat.valorJugador1 + stat.valorJugador2)"></div>
+          </div>
+          
+          <div class="value right">{{ stat.valorJugador2 }}</div>
+          
+        </div>
+        <div class="label">{{ stat.nombre }}</div>
+      </div>
+  
+    </ion-card-content>
+  
+    <ion-card-header>
+      <ion-card-title>Points</ion-card-title>
+    </ion-card-header>
+    <ion-card-content [ngClass]="{ 'dark-mode': isDark, 'light-mode': !isDark }">
+  
+    <div *ngFor="let stat of estadisticasServicio" class="stat-col">
+      <div class="stat-row">  
+        <div class="value left">{{ stat.valorJugador1 }}</div>
+
+        <div class="bar-container">
+          <div class="bar bar-left" [style.width.%]="100 * stat.valorJugador1 / (stat.valorJugador1 + stat.valorJugador2)"></div>
+          <div class="bar bar-right" [style.width.%]="100 * stat.valorJugador2 / (stat.valorJugador1 + stat.valorJugador2)"></div>
+        </div>
+        
+        <div class="value right">{{ stat.valorJugador2 }}</div>
+        
+      </div>
+      <div class="label">{{ stat.nombre }}</div>
+    </div>
+  
+    </ion-card-content>
+  </ion-card>
+</ion-content>

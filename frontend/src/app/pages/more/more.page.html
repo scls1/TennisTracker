@@ -1,0 +1,38 @@
+
+<ion-content [fullscreen]="true" class="slide-in">
+  <ion-list>
+    <ion-item lines="none" class="cerrar" detail="false" (click)="navigateBack()">
+      <ion-label></ion-label>
+      <ion-icon name="close-outline" size="large" slot="end"></ion-icon>
+    </ion-item>
+
+    <ion-item button (click)="logout()">
+      <ion-icon slot="start" size="large" name="log-out-outline"></ion-icon>
+      <ion-label>
+        <h2>Log out</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button (click)="toggleDarkMode()">
+      <ion-icon slot="start" size="large" [name]="isDark ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+      <ion-label>
+        <h2>Light Mode</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button [routerLink]="['/pro']">
+      <ion-icon slot="start" size="large" name="cart-outline" ></ion-icon>
+      <ion-label>
+        <h2>Pro</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item button [routerLink]="['/info']">
+      <ion-icon slot="start" size="large" name="information-circle-outline" ></ion-icon>
+      <ion-label>
+        <h2>Info</h2>
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

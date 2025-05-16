@@ -1,0 +1,58 @@
+<app-topbar></app-topbar>
+<ion-content>
+  <ion-title class="actividad-title">Activity</ion-title>
+
+  
+ 
+    @if(error != null){
+      <ion-card-content class="error-message">
+        {{ error }}
+      </ion-card-content>
+    }
+    @else{
+      <ng-container *ngFor="let partido of partidosConMarcadores">
+        @if(!partido.partido.nombre4){
+          <ion-card-title class="fecha-partido">{{partido.partido.fecha}}</ion-card-title>
+          <ion-card color="light" (click)="goToDetail(partido.partido.id)">
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="columna-nombre">{{ partido.partido.nombre1 }}</ion-col>
+                  <ng-container *ngFor="let marcador of partido.marcador">
+                        <ion-col class="columna-resultado">{{ marcador.set.marcador1 }}</ion-col>
+                  </ng-container>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col class="columna-nombre">{{ partido.partido.nombre2 }}</ion-col>
+                    <ng-container *ngFor="let marcador of partido.marcador">
+                      <ion-col class="columna-resultado">{{ marcador.set.marcador2 }}</ion-col>
+                    </ng-container>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-content>
+            </ion-card>
+        }@else{
+          <ion-card-title class="fecha-partido">{{partido.partido.fecha}}</ion-card-title>
+          <ion-card color="light" (click)="goToDetail(partido.partido.id)">
+            <ion-card-content>
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="columna-nombre">{{ partido.partido.nombre1 }} / {{ partido.partido.nombre2 }}</ion-col>
+                  <ng-container *ngFor="let marcador of partido.marcador">
+                    <ion-col class="columna-resultado">{{ marcador.set.marcador1 }}</ion-col>
+                  </ng-container>
+                </ion-row>
+                <ion-row>
+                  <ion-col class="columna-nombre">{{ partido.partido.nombre3 }} / {{ partido.partido.nombre4 }}</ion-col>
+                  <ng-container *ngFor="let marcador of partido.marcador">
+                    <ion-col class="columna-resultado">{{ marcador.set.marcador2 }}</ion-col>
+                  </ng-container>
+                </ion-row>
+              </ion-grid>
+            </ion-card-content>
+          </ion-card>
+        }
+        </ng-container>
+    }
+
+</ion-content>
