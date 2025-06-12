@@ -6,9 +6,8 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class GameService {
-  apiUrl = environment.apiUrl + 'games/';
-
+export class EventoService {
+  apiUrl = environment.apiUrl + 'eventos/';
   http = inject(HttpClient);
 
   constructor() { }
@@ -19,7 +18,6 @@ export class GameService {
       'x-token': localStorage.getItem('token') || ''
     })
   }
-
 
   handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
@@ -32,11 +30,20 @@ export class GameService {
     return throwError ('Ha sucedido un problema, reintentalo más tarde');
   }
 
-  getGamesPorSet(idSet: number) {
-  return this.http.get<any[]>(`${this.apiUrl}set/${idSet}`, this.httpOptions).pipe(retry(2),catchError(this.handleError));
-}
-
-  createGame(resultado:any):Observable<any>{
-    return this.http.post(`${this.apiUrl}`,JSON.stringify(resultado),this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  getEventosDePartidoPorTipo(id:number, tipo:number):Observable<any>{
+    return this.http.get(`${this.apiUrl}${id}/${tipo}`, this.httpOptions).pipe(retry(2), catchError(this.handleError));
   }
+
+  getNumEventos():Observable<any>{
+    return this.http.get(`${this.apiUrl}numero/de/eventos/`, this.httpOptions).pipe(retry(2), catchError(this.handleError));
+  }
+
+  getEventosPorJugadorPorPartido(idPartido:number, idJugador:any):Observable<any>{
+    return this.http.get(`${this.apiUrl}jugador/${idPartido}/${idJugador}`, this.httpOptions).pipe(retry(2), catchError(this.handleError));
+  }
+
+  crearEvento(evento:any):Observable<any>{
+    return this.http.post(`${this.apiUrl}`,JSON.stringify(evento), this.httpOptions).pipe(retry(2), catchError(this.handleError));
+  }
+
 }

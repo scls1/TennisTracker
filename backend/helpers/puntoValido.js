@@ -1,7 +1,6 @@
 const puntoValido = (puntos, nuevoPunto, esTiebreak) => {
     if (puntos.length === 0) {
-        // Si es el primer punto del game, debe comenzar en (0-0)
-        return nuevoPunto.marcador1 === 0 && nuevoPunto.marcador2 === 0;
+        return (nuevoPunto.marcador1 === 15  && nuevoPunto.marcador2 === 0) || (nuevoPunto.marcador1 === 0  && nuevoPunto.marcador2 === 15);
     }
 
     const ultimoPunto = puntos[puntos.length - 1];

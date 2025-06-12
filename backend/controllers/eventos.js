@@ -69,6 +69,7 @@ const getEventosDePartidoPorTipo = async(req, res) => {
             });
         }
         res.json({
+            count: eventos.length,
             eventos,
             ok: true,
             msg: 'getEventoDePartidoPorTipo'
@@ -82,10 +83,88 @@ const getEventosDePartidoPorTipo = async(req, res) => {
     }
 }
 
+const getNumEventos = async(req, res) => {
+    try {
+        return res.json({
+            EVENTOS,
+            ok:true,
+            msg:'getNumEventos'
+        })
+    } catch (err) {
+        console.error(err);
+        return res.status(400).json({
+            ok:false,
+            msg:'Error al buscar numero de eventos'
+        })
+    }
+}
+
+const getEventosPorJugadorPorPartido = async(req, res) => {
+    try {
+        const idPartido = req.params.idPartido;
+        const idJugador = req.params.idJugador;
+
+        const partidoExiste = await Partido.findByPk(idPartido);
+        if(!partidoExiste){
+            return res.json({
+                ok: false,
+                msg: 'partido no encontrado'
+            });
+        }
+
+        if (!isNaN(idJugador) && Number.isInteger(Number(idJugador))) {
+            let jugadorExiste = await Jugador.findOne({ where: { IdJugador: idJugador }});
+            if(!jugadorExiste){
+                return res.json({
+                    ok: false,
+                    msg: 'jugador no encontrado'
+                })
+            }
+            
+            const eventosTodos = await EventosPartido.findAll({where:{Id_jugador:idJugador}});
+            if(!eventosTodos){
+                return res.json({
+                    ok: false,
+                    msg: 'eventos no encontrados'
+                });
+            }
+            const eventos = eventosTodos.filter(evento => evento.Id_partido === Number(idPartido));
+            res.json({
+                eventos,
+                ok: true,
+                msg: 'getEventoPorJugador'
+            });
+        }else{
+            
+            const eventosTodos = await EventosPartido.findAll({where:{Nombre_jugador:idJugador}});
+            if(!eventosTodos){
+                return res.json({
+                    ok: false,
+                    msg: 'eventos no encontrados'
+                });
+            }
+            const eventos = eventosTodos.filter(evento => evento.Id_partido === Number(idPartido));
+            res.json({
+                eventos,
+                ok: true,
+                msg: 'getEventoPorJugador'
+            });
+        }
+
+        
+    } catch (err) {
+        console.error(err)
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error al buscar eventos'
+        });
+    }
+}
+
 const createEvento = async(req,res) => {
  
     try {
-        let {Id_partido ,Id_jugador, Id_evento} = req.body;
+        let {Id_partido,Id_jugador, Id_evento, Nombre_jugador} = req.body;
         let partidoExiste = await Partido.findOne({ where: { IdPartido: Id_partido }});
         if(!partidoExiste){
             return res.json({
@@ -93,18 +172,22 @@ const createEvento = async(req,res) => {
                 msg: 'partido no encontrado'
             })
         }
-        let jugadorExiste = await Jugador.findOne({ where: { IdJugador: Id_jugador }});
-        if(!jugadorExiste){
-            return res.json({
-                ok: false,
-                msg: 'jugador no encontrado'
-            })
+
+        if(Id_jugador){
+            let jugadorExiste = await Jugador.findOne({ where: { IdJugador: Id_jugador }});
+            if(!jugadorExiste){
+                return res.json({
+                    ok: false,
+                    msg: 'jugador no encontrado'
+                })
+            }
         }
 
         const evento = await EventosPartido.create({
             Id_partido,
             Id_jugador,
             Id_evento,
+            Nombre_jugador,
             Fecha_hora: new Date()
         });
 
@@ -188,4 +271,4 @@ const deleteEvento = async(req,res) => {
 }
     
    
-module.exports = { getEventos, getEventosDePartidoPorTipo, createEvento, updateEvento, deleteEvento }
+module.exports = { getEventos, getEventosPorJugadorPorPartido, getEventosDePartidoPorTipo, getNumEventos, createEvento, updateEvento, deleteEvento }

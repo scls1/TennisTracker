@@ -15,7 +15,7 @@
           <p style="padding-left: 3ch; color:red;">Field required</p>
       }
       <ion-item>
-        <ion-input name="email" placeholder="email@domain.com" [(ngModel)]="usuario.Email"></ion-input>
+        <ion-input name="email" placeholder="Email" [(ngModel)]="usuario.Email"></ion-input>
       </ion-item>
       @if (errorEmail) {
         <p style="padding-left: 3ch; color:red;">Field required or incorrect format</p>
@@ -35,14 +35,11 @@
             <p style="padding-left: 3ch; color:red;">Field required</p>
         }
     </ion-list>
+    <p class="login-text">Already have an account?  <a href="/login">Log in</a></p>
 
     <ion-button expand="block" class="register-button" (click)="registrar(usuario)">Sign up</ion-button>
 
-    <p class="login-text">¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
 
-    <ion-button color="Success" expand="block" class="google-button">
-      <ion-icon name="logo-google" slot="start"></ion-icon> Sign up with Google
-    </ion-button>
 
   </div>
 </ion-content>

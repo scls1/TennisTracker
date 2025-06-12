@@ -13,15 +13,15 @@
       margin-top: 50%;
   }
 
-.logo-container{
-    display: flex;
-    margin-bottom: 30px;
+.logo-container {
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  gap: 10px; /* Espacio opcional entre logo y texto */
 }
-    
+
   
     .register-logo {
         max-width: 70px;
-        margin-bottom: 15px;
         margin-top: 15px;
       }
       

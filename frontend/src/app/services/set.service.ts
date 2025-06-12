@@ -42,5 +42,9 @@ export class SetService {
   createSet(resultado:any):Observable<any>{
     return this.http.post(`${this.apiUrl}`,JSON.stringify(resultado),this.httpOptions).pipe(retry(2),catchError(this.handleError));
   }
+  updateSet(setId:number, set:any):Observable<any>{
+    return this.http.put(`${this.apiUrl}/${setId}`,JSON.stringify(set),this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+  
   
 }

@@ -2,7 +2,7 @@ const { Router } = require('express');
 const {check} = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { getEventos, getEventosDePartidoPorTipo, createEvento, updateEvento, deleteEvento } = require('../controllers/eventos');
+const { getEventos, getEventosDePartidoPorTipo, createEvento, updateEvento, deleteEvento, getEventosPorJugadorPorPartido, getNumEventos } = require('../controllers/eventos');
 const router = Router();
 
 router.get(['/','/:id'], validarJWT, getEventos);
@@ -13,9 +13,14 @@ router.get('/:id/:tipo', [
     validarJWT
 ], getEventosDePartidoPorTipo);
 
+router.get('/numero/de/eventos/', validarJWT, getNumEventos);
+
+router.get('/jugador/:idPartido/:idJugador', [
+    validarJWT
+], getEventosPorJugadorPorPartido);
+
 router.post('/', [
     check('Id_partido', 'El argumento Id_partido es obligatorio').not().isEmpty(),
-    check('Id_jugador', 'El argumento Id_jugador es obligatorio').not().isEmpty(),
     check('Id_evento', 'El argumento Id_evento es obligatorio').not().isEmpty(),
     validarCampos,
     validarJWT 

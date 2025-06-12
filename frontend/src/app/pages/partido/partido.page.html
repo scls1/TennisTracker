@@ -1,0 +1,266 @@
+<app-topbar></app-topbar>
+
+<ion-content *ngIf="partido && marcador" >
+  <div class="result-container">
+    @if(!partido.nombre4){
+    <ion-card color="light">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="columna-nombre">{{ partido.nombre1 }}<ion-icon *ngIf="sacador == partido.nombre1" name="tennisball-outline"></ion-icon></ion-col>
+            @if(gamePlaying){
+              @if(ultimoPunto.marcador1 === -1){
+                <ion-col class="columna-resultado">A</ion-col>
+
+              }@else{
+                <ion-col class="columna-resultado">{{ ultimoPunto.marcador1 }}</ion-col>
+              }
+            }
+            <ng-container *ngFor="let set of marcador">
+                  <ion-col class="columna-resultado">{{ set.marcador1 }}</ion-col>
+            </ng-container>
+            </ion-row> 
+            <ion-row>
+              <ion-col class="columna-nombre">{{ partido.nombre2 }}<ion-icon *ngIf="sacador == partido.nombre2" name="tennisball-outline"></ion-icon></ion-col>
+              @if(gamePlaying){
+                @if(ultimoPunto.marcador2 === -1){
+                  <ion-col class="columna-resultado">A</ion-col>
+
+                }@else{
+                  <ion-col class="columna-resultado">{{ ultimoPunto.marcador2 }}</ion-col>
+                }
+              }
+              <ng-container *ngFor="let set of marcador">
+                <ion-col class="columna-resultado">{{ set.marcador2 }}</ion-col>
+              </ng-container>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    }@else{
+      <ion-card color="light">
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col class="columna-nombre">{{ partido.nombre1 }} / {{ partido.nombre2 }} <ion-icon *ngIf="sacador == partido.nombre1 || sacador == partido.nombre2" name="tennisball-outline"></ion-icon></ion-col>
+              @if(gamePlaying){
+                @if(ultimoPunto.marcador1 === -1){
+                  <ion-col class="columna-resultado">A</ion-col>
+                }@else{
+                  <ion-col class="columna-resultado">{{ ultimoPunto.marcador1 }}</ion-col>
+                }
+              }
+              <ng-container *ngFor="let set of marcador">
+                <ion-col class="columna-resultado">{{ set.marcador1 }}</ion-col>
+              </ng-container>
+            </ion-row>
+            <ion-row>
+              <ion-col class="columna-nombre">{{ partido.nombre3 }} / {{ partido.nombre4 }}<ion-icon *ngIf="sacador == partido.nombre3 || sacador == partido.nombre4" name="tennisball-outline"></ion-icon></ion-col>
+              @if(gamePlaying){
+                @if(ultimoPunto.marcador1 === -1){
+                  <ion-col class="columna-resultado">A</ion-col>
+
+                }@else{
+                  <ion-col class="columna-resultado">{{ ultimoPunto.marcador1 }}</ion-col>
+                }
+              }
+              <ng-container *ngFor="let set of marcador">
+                <ion-col class="columna-resultado">{{ set.marcador2 }}</ion-col>
+              </ng-container>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
+
+
+  @if(!partido.nombre4){
+    <div *ngIf="partido && marcador" class="main-container">
+      @if(estado==='inicial'){
+        <div class="instruction"><ion-title>Who serves?</ion-title></div>
+        <div class="title-container">
+            <ion-title class="title-A">{{partido.nombre1}}</ion-title>
+            <ion-title class="title-B">{{partido.nombre2}}</ion-title>
+          </div>
+          <div class="botones-container">
+            <div (click)="addSaque(partido.nombre1)" class="boton-inicio boton-A">{{partido.nombre1}}</div>
+            <div (click)="addSaque(partido.nombre2)" class="boton-inicio boton-B">{{partido.nombre2}}</div>
+          </div>
+      }@else if(estado==='saque1'){
+          <div class="instruction"><ion-title>1st Service</ion-title></div>
+          <div class="title-container">
+          <ion-title class="title-A">{{partido.nombre1}}</ion-title>
+          <ion-title class="title-B">{{partido.nombre2}}</ion-title>
+        </div>
+        <div class="botones-container">
+          @if(sacador === partido.nombre1){
+            <div class="col-container">
+              <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
+              <div (click)="secondService()" class="boton-saque boton-B">Fault</div>
+              <div (click)="ace()" class="boton-saque boton-A">Ace</div>
+            </div>
+            <div class="col-container">
+              <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
+              <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
+            </div>
+          }@else if(sacador === partido.nombre2){
+            <div class="col-container">
+              <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
+              <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
+            </div>
+            <div class="col-container">
+              <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
+              <div (click)="secondService()" class="boton-saque boton-B">Fault</div>
+              <div (click)="ace()" class="boton-saque boton-A">Ace</div>
+            </div>
+          }
+        </div>
+      }@else if(estado==='saque2'){
+        <div class="instruction"><ion-title>2nd Service</ion-title></div>
+        <div class="title-container">
+          <ion-title class="title-A">{{partido.nombre1}}</ion-title>
+          <ion-title class="title-B">{{partido.nombre2}}</ion-title>
+        </div>
+        <div class="botones-container">
+          @if(sacador === partido.nombre1){
+            <div class="col-container">
+              <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
+              <div (click)="doubleFault()" class="boton-saque boton-B">Double fault</div>
+              <div (click)="ace()" class="boton-saque boton-A">Ace</div>
+            </div>
+            <div class="col-container">
+              <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
+              <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
+            </div>
+          }@else if(sacador === partido.nombre2){
+            <div class="col-container">
+              <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
+              <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
+            </div>
+            <div class="col-container">
+              <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
+              <div (click)="doubleFault()" class="boton-saque boton-B">Double fault</div>
+              <div (click)="ace()" class="boton-saque boton-A">Ace</div>
+            </div>
+          }
+        </div>
+      }@else if(estado==='jugando'){
+        <div class="instruction"><ion-title>Ball in</ion-title></div>
+        <div class="title-container">
+          <ion-title class="title-A">{{partido.nombre1}}</ion-title>
+          <ion-title class="title-B">{{partido.nombre2}}</ion-title>
+        </div>
+        <div class="botones-container">
+          <div class="col-container">
+            <div (click)="winner(true)" class="boton-saque boton-A">Winner</div>
+            <div (click)="forcedError(true)" class="boton-saque boton-B">Forced error</div>
+            <div (click)="unforcedError(true)" class="boton-saque boton-A">Unforced error</div>
+          </div>
+          <div class="col-container">
+            <div (click)="winner(false)" class="boton-saque boton-A">Winner</div>
+            <div (click)="forcedError(false)" class="boton-saque boton-B">Forced error</div>
+            <div (click)="unforcedError(false)" class="boton-saque boton-A">Unforced error</div>
+          </div>
+        </div>
+      }
+    </div>
+
+
+
+
+
+
+
+  }@else{
+  <div *ngIf="partido && marcador" class="main-container">
+    @if(estado==='inicial'){
+        <div class="instruction"><ion-title>Who serves?</ion-title></div>
+        <div class="title-container">
+            <ion-title class="title-A">{{partido.nombre1}} / {{partido.nombre2}}</ion-title>
+            <ion-title class="title-B">{{partido.nombre3}} / {{partido.nombre4}}</ion-title>
+          </div>
+          <div class="botones-container">
+            <div (click)="addSaque(partido.nombre1)" class="boton-inicio boton-A">{{partido.nombre1}} / {{partido.nombre2}}</div>
+            <div (click)="addSaque(partido.nombre2)" class="boton-inicio boton-B">{{partido.nombre3}} / {{partido.nombre1}}</div>
+          </div>
+        }@else if(estado==='saque1'){
+        <div class="instruction"><ion-title>1st Service</ion-title></div>
+        <div class="title-container">
+          <ion-title class="title-A">{{partido.nombre1}} / {{partido.nombre2}}</ion-title>
+          <ion-title class="title-B">{{partido.nombre3}} / {{partido.nombre4}}</ion-title>
+        </div>
+        <div class="botones-container">
+          @if(sacador === partido.nombre1 || sacador === partido.nombre2){
+            <div class="col-container">
+              <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
+              <div (click)="secondService()" class="boton-saque boton-B">Fault</div>
+              <div (click)="ace()" class="boton-saque boton-A">Ace</div>
+            </div>
+            <div class="col-container">
+              <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
+              <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
+            </div>
+          }@else if(sacador === partido.nombre3 || partido.nombre4){
+            <div class="col-container">
+              <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
+              <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
+            </div>
+            <div class="col-container">
+              <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
+              <div (click)="secondService()" class="boton-saque boton-B">Fault</div>
+              <div (click)="ace()" class="boton-saque boton-A">Ace</div>
+            </div>
+          }
+        </div>
+      }@else if(estado==='saque2'){
+        <div class="instruction"><ion-title>2nd Service</ion-title></div>
+        <div class="title-container">
+          <ion-title class="title-A">{{partido.nombre1}} / {{partido.nombre2}}</ion-title>
+          <ion-title class="title-B">{{partido.nombre3}} / {{partido.nombre4}}</ion-title>
+        </div>
+        <div class="botones-container">
+          @if(sacador === partido.nombre1 || partido.nombre2){
+            <div class="col-container">
+              <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
+              <div (click)="doubleFault()" class="boton-saque boton-B">Double fault</div>
+              <div (click)="ace()" class="boton-saque boton-A">Ace</div>
+            </div>
+            <div class="col-container">
+              <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
+              <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
+            </div>
+          }@else if(sacador === partido.nombre3 || partido.nombre4){
+            <div class="col-container">
+              <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
+              <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
+            </div>
+            <div class="col-container">
+              <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
+              <div (click)="doubleFault()" class="boton-saque boton-B">Double fault</div>
+              <div (click)="ace()" class="boton-saque boton-A">Ace</div>
+            </div>
+          }
+        </div>
+      }@else if(estado==='jugando'){
+        <div class="instruction"><ion-title>Ball in</ion-title></div>
+        <div class="title-container">
+          <ion-title class="title-A">{{partido.nombre1}} / {{partido.nombre2}}</ion-title>
+          <ion-title class="title-B">{{partido.nombre3}} / {{partido.nombre4}}</ion-title>
+        </div>
+        <div class="botones-container">
+          <div class="col-container">
+            <div (click)="winner(true)" class="boton-saque boton-A">Winner</div>
+            <div (click)="forcedError(true)" class="boton-saque boton-B">Forced error</div>
+            <div (click)="unforcedError(true)" class="boton-saque boton-A">Unforced error</div>
+          </div>
+          <div class="col-container">
+            <div (click)="winner(false)" class="boton-saque boton-A">Winner</div>
+            <div (click)="forcedError(false)" class="boton-saque boton-B">Forced error</div>
+            <div (click)="unforcedError(false)" class="boton-saque boton-A">Unforced error</div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</ion-content>

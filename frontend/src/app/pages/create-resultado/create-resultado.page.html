@@ -36,7 +36,7 @@
   <ion-list class="first-jugador">
 
     <ion-item class="item-jugador" lines="none" [ngClass]="{ 'shadowed-list': !isDark }"> 
-      <ion-label class="labelfont" position="fixed">Jugador 1</ion-label>
+      <ion-label class="labelfont" position="fixed">Player 1</ion-label>
       @if(!confirmedPlayer1){
         <ion-input placeholder="Player 1 must be added" disabled name="jugador1"></ion-input>
       }@else{
@@ -59,7 +59,7 @@
   <ion-list class="final-jugador">
 
     <ion-item class="item-jugador" lines="none" [ngClass]="{ 'shadowed-list': !isDark }">
-      <ion-label class="labelfont" position="fixed">Jugador 2</ion-label>
+      <ion-label class="labelfont" position="fixed">Player 2</ion-label>
           @if(!confirmedPlayer2){
         <ion-input
             [(ngModel)]="jugador2Input"
@@ -98,7 +98,7 @@
     <div *ngIf="partido.dobles">
       <ion-list class="middle-jugador" >        
         <ion-item class="item-jugador" lines="none" [ngClass]="{ 'shadowed-list': !isDark }">
-            <ion-label class="labelfont" position="fixed">Jugador 3</ion-label>
+            <ion-label class="labelfont" position="fixed">Player 3</ion-label>
             @if(!confirmedPlayer3){
               <ion-input [(ngModel)]="jugador3Input" placeholder="Add Player" name="jugador3"></ion-input>
             }@else{
@@ -118,7 +118,7 @@
     
     <ion-list class="final-jugador">
         <ion-item class="item-jugador" lines="none" [ngClass]="{ 'shadowed-list': !isDark }">
-          <ion-label class="labelfont" position="fixed">Jugador 4</ion-label>
+          <ion-label class="labelfont" position="fixed">Player 4</ion-label>
           @if(!confirmedPlayer4){
             <ion-input [(ngModel)]="jugador4Input" placeholder="Add Player" name="jugador4"></ion-input>
           }@else{
@@ -186,7 +186,7 @@
 
        <ion-list style="background-color: transparent;">
          <ion-button expand="full" type="submit" class="ion-margin-top" (click)="guardarResultado()">
-           <ion-icon></ion-icon>Guardar Resultado
+           <ion-icon></ion-icon>Save Result
          </ion-button>
        </ion-list>
 

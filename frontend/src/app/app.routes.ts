@@ -74,5 +74,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/create-resultado/create-resultado.page').then( m => m.CreateResultadoPage),
     canActivate: [authGuard]
   },
+  {
+    path: 'partido/:id',
+    loadComponent: () => import('./pages/partido/partido.page').then( m => m.PartidoPage),
+    canActivate: [authGuard]
+  },
   
 ];

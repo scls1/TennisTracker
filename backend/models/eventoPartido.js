@@ -26,9 +26,13 @@ const EventosPartido = sequelize.define('EventosPartido', {
             isIn: [Object.values(EVENTOS)] // Solo permite valores del ENUM
         }
     },
+    Nombre_jugador: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
     Id_jugador: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Jugador,
             key: 'IdJugador'

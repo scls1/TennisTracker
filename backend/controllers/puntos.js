@@ -1,3 +1,5 @@
+const { crearNuevoGame } = require('../helpers/crearNuevoGame');
+const { gameTerminado } = require('../helpers/gameTerminado');
 const { puntoActualizadoValido } = require('../helpers/puntoActualizadoValido');
 const { puntoValido } = require('../helpers/puntoValido');
 const Game = require('../models/game');
@@ -154,6 +156,7 @@ const createPunto = async(req,res) => {
             });
         }
         const esTiebreak = game.dataValues.marcador1 === 6 && game.dataValues.marcador2 === 6;
+        const idSet = game.dataValues.idSet;
         
         
         const puntos = await Punto.findAndCountAll({
@@ -168,14 +171,14 @@ const createPunto = async(req,res) => {
             marcador2: punto.marcador2, 
             numero: punto.numero
         }));
-        const nuevoPunto = { marcador1, marcador2, numero };
+        let nuevoPunto = { marcador1, marcador2, numero };
         if (!puntoValido(infoPuntos, nuevoPunto, esTiebreak)) {
             return res.status(400).json({
                 ok: false,
                 msg: 'Punto inválido'
             });
         }
-
+        
         const punto = await Punto.create({
             idGame, 
             numero, 
@@ -183,6 +186,18 @@ const createPunto = async(req,res) => {
             marcador2
         });
 
+        // if(gameTerminado(nuevoPunto, esTiebreak)){
+        //     let ganador;
+        //     if(nuevoPunto.marcador1 === 60){
+        //         ganador = 1;
+        //     }
+        //     if(nuevoPunto.marcador2 === 60){
+        //         ganador = 2;
+        //     }
+
+        //     crearNuevoGame(idSet, ganador);
+        // }
+        
         res.json({
             ok: true,
             msg: 'Punto creado correctamente',
