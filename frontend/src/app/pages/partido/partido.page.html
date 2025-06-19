@@ -7,7 +7,7 @@
       <ion-card-content>
         <ion-grid>
           <ion-row>
-            <ion-col class="columna-nombre">{{ partido.nombre1 }}<ion-icon *ngIf="sacador == partido.nombre1" name="tennisball-outline"></ion-icon></ion-col>
+            <ion-col class="columna-nombre"><div class="nombre-con-icono">{{ partido.nombre1 }}<ion-icon *ngIf="sacador == partido.nombre1" name="tennisball-outline" class="icon-ball"></ion-icon></div></ion-col>
             @if(gamePlaying){
               @if(ultimoPunto.marcador1 === -1){
                 <ion-col class="columna-resultado">A</ion-col>
@@ -21,7 +21,7 @@
             </ng-container>
             </ion-row> 
             <ion-row>
-              <ion-col class="columna-nombre">{{ partido.nombre2 }}<ion-icon *ngIf="sacador == partido.nombre2" name="tennisball-outline"></ion-icon></ion-col>
+              <ion-col class="columna-nombre"><div class="nombre-con-icono">{{ partido.nombre2 }}<ion-icon *ngIf="sacador == partido.nombre2" name="tennisball-outline" class="icon-ball"></ion-icon></div></ion-col>
               @if(gamePlaying){
                 @if(ultimoPunto.marcador2 === -1){
                   <ion-col class="columna-resultado">A</ion-col>
@@ -42,7 +42,7 @@
         <ion-card-content>
           <ion-grid>
             <ion-row>
-              <ion-col class="columna-nombre">{{ partido.nombre1 }} / {{ partido.nombre2 }} <ion-icon *ngIf="sacador == partido.nombre1 || sacador == partido.nombre2" name="tennisball-outline"></ion-icon></ion-col>
+              <ion-col class="columna-nombre"><div class="nombre-con-icono">{{ partido.nombre1 }} / {{ partido.nombre2 }} <ion-icon *ngIf="sacador == partido.nombre1 || sacador == partido.nombre2" name="tennisball-outline" class="icon-ball"></ion-icon></div></ion-col>
               @if(gamePlaying){
                 @if(ultimoPunto.marcador1 === -1){
                   <ion-col class="columna-resultado">A</ion-col>
@@ -55,13 +55,13 @@
               </ng-container>
             </ion-row>
             <ion-row>
-              <ion-col class="columna-nombre">{{ partido.nombre3 }} / {{ partido.nombre4 }}<ion-icon *ngIf="sacador == partido.nombre3 || sacador == partido.nombre4" name="tennisball-outline"></ion-icon></ion-col>
+              <ion-col class="columna-nombre"><div class="nombre-con-icono">{{ partido.nombre3 }} / {{ partido.nombre4 }}<ion-icon *ngIf="sacador == partido.nombre3 || sacador == partido.nombre4" name="tennisball-outline" class="icon-ball"></ion-icon></div></ion-col>
               @if(gamePlaying){
-                @if(ultimoPunto.marcador1 === -1){
+                @if(ultimoPunto.marcador2 === -1){
                   <ion-col class="columna-resultado">A</ion-col>
 
                 }@else{
-                  <ion-col class="columna-resultado">{{ ultimoPunto.marcador1 }}</ion-col>
+                  <ion-col class="columna-resultado">{{ ultimoPunto.marcador2 }}</ion-col>
                 }
               }
               <ng-container *ngFor="let set of marcador">
@@ -166,27 +166,21 @@
       }
     </div>
 
-
-
-
-
-
-
   }@else{
   <div *ngIf="partido && marcador" class="main-container">
     @if(estado==='inicial'){
         <div class="instruction"><ion-title>Who serves?</ion-title></div>
-        <div class="title-container">
+        <div class="title-container-dobles">
             <ion-title class="title-A">{{partido.nombre1}} / {{partido.nombre2}}</ion-title>
             <ion-title class="title-B">{{partido.nombre3}} / {{partido.nombre4}}</ion-title>
           </div>
           <div class="botones-container">
             <div (click)="addSaque(partido.nombre1)" class="boton-inicio boton-A">{{partido.nombre1}} / {{partido.nombre2}}</div>
-            <div (click)="addSaque(partido.nombre2)" class="boton-inicio boton-B">{{partido.nombre3}} / {{partido.nombre1}}</div>
+            <div (click)="addSaque(partido.nombre3)" class="boton-inicio boton-B">{{partido.nombre3}} / {{partido.nombre1}}</div>
           </div>
         }@else if(estado==='saque1'){
         <div class="instruction"><ion-title>1st Service</ion-title></div>
-        <div class="title-container">
+        <div class="title-container-dobles">
           <ion-title class="title-A">{{partido.nombre1}} / {{partido.nombre2}}</ion-title>
           <ion-title class="title-B">{{partido.nombre3}} / {{partido.nombre4}}</ion-title>
         </div>
@@ -201,7 +195,7 @@
               <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
               <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
             </div>
-          }@else if(sacador === partido.nombre3 || partido.nombre4){
+          }@else if(sacador === partido.nombre3 || sacador === partido.nombre4){
             <div class="col-container">
               <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
               <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
@@ -220,7 +214,7 @@
           <ion-title class="title-B">{{partido.nombre3}} / {{partido.nombre4}}</ion-title>
         </div>
         <div class="botones-container">
-          @if(sacador === partido.nombre1 || partido.nombre2){
+          @if(sacador === partido.nombre1 || sacador === partido.nombre2){
             <div class="col-container">
               <div (click)="ballIn()" class="boton-saque boton-A">Ball in</div>
               <div (click)="doubleFault()" class="boton-saque boton-B">Double fault</div>
@@ -230,7 +224,8 @@
               <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
               <div (click)="returnError()" class="boton-saque boton-A">Return error</div>
             </div>
-          }@else if(sacador === partido.nombre3 || partido.nombre4){
+          }@else if(sacador === partido.nombre3 || sacador === partido.nombre4){
+            
             <div class="col-container">
               <div (click)="returnWinner()" class="boton-saque boton-B">Return winner</div>
               <div (click)="returnError()" class="boton-saque boton-A">Return error</div>

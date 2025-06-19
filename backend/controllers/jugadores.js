@@ -106,6 +106,24 @@ const createJugador = async(req,res) => {
     }
 }
 
+const subirFoto = async (req, res) => {
+   try {
+    if (!req.file) {
+      return res.status(400).json({ ok: false, msg: 'No file uploaded' });
+    }
+
+    // Aquí accedes al archivo
+    const file = req.file;
+    console.log('Archivo recibido:', file);
+
+    // Devuelves una respuesta
+    return res.status(200).json({ ok: true, file });
+  } catch (error) {
+    console.error('Error al subir la imagen:', error);
+    return res.status(500).json({ ok: false, msg: 'Server error' });
+  }
+}
+
 const updateJugador = async (req, res) => {
     try {
         const id = req.params.id;
@@ -133,7 +151,8 @@ const updateJugador = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: "Jugador actualizado correctamente"
+            msg: "Jugador actualizado correctamente",
+            user: existeJugador
         });
 
     } catch (error) {
@@ -173,4 +192,4 @@ const deleteJugador = async(req,res) => {
 }
     
    
-module.exports = { getJugadores, getJugadoresPorEntrenador, createJugador, updateJugador, deleteJugador }
+module.exports = { getJugadores, getJugadoresPorEntrenador, createJugador, subirFoto, updateJugador, deleteJugador }

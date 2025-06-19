@@ -10,6 +10,7 @@ import { jwtDecode } from 'jwt-decode';
 import { map, Observable } from 'rxjs';
 import { PartidoService } from 'src/app/services/partido.service';
 import { SetService } from 'src/app/services/set.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-create-resultado',
@@ -52,7 +53,7 @@ export class CreateResultadoPage implements OnInit {
   private userId;
 
   public isDark = localStorage.getItem('dark-mode') === 'true';
-  
+  public apiUrl: string = environment.apiUrl;
   public activeButton: number | null = null;
   public selectedPlayerNombre: string | null = null;
   public confirmedPlayerNombre1: string | null = null;
@@ -446,6 +447,7 @@ export class CreateResultadoPage implements OnInit {
         for(const set of resultadoFinal){
           this.apiSet.createSet(set).subscribe((res:any) => {
             if(response.ok){
+              //aqui tenemos que crear los games para el resultado
               window.location.href = '/home';
 
             }else{

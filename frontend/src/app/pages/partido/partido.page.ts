@@ -13,6 +13,7 @@ import { tennisballOutline } from 'ionicons/icons';
 import { PuntoService } from 'src/app/services/punto.service';
 import { GameService } from 'src/app/services/game.service';
 import { EventoService } from 'src/app/services/evento.service';
+import { HistorialService } from 'src/app/services/historial.service';
 
 @Component({
   selector: 'app-partido',
@@ -46,6 +47,7 @@ export class PartidoPage implements OnInit {
   apiEventos = inject(EventoService);
   router = inject(Router);
 
+
   private idString: string | null = null;
   private partidoId: number | undefined = undefined;
   private ultimoSet: any;
@@ -53,7 +55,6 @@ export class PartidoPage implements OnInit {
   public ultimoPunto:any;
   private partidoAcabado: boolean = false;
   private jugadores: any[] = [];
-  private historial : string[] = []; 
   private primerSaque: boolean = true;
 
   public isDark = localStorage.getItem('dark-mode') === 'true';
@@ -131,7 +132,6 @@ export class PartidoPage implements OnInit {
         }})
       ).subscribe((partidoResuelto: any) => {
         this.partido = partidoResuelto;
-
          if(this.partidoId){
 
         this.apiSets.getSetsPorPartido(this.partidoId).pipe(
@@ -155,10 +155,31 @@ export class PartidoPage implements OnInit {
           this.apiGames.getGamesPorSet(this.ultimoSet.Id).pipe(
             map((response: any) => {
               const games: any[] = response.games;
-              if (!Array.isArray(games)) return null;
+
+              //PROBLEMA: No me permite hacer esto porque tengo que crear todos los games anteriores antes de seguir con el actual
+              // if (games.length == 0){
+                
+              //   let nuevoGame = {
+              //     idSet: this.ultimoSet.Id, 
+              //     marcador1: this.ultimoSet.marcador1, 
+              //     marcador2: this.ultimoSet.marcador2
+              //   }
+
+              //   this.apiGames.createGame(nuevoGame).subscribe((response: any) =>  {
+              //     if(response.ok){
+              //       console.log(response);
+              //     }else{
+              //       console.log(response)
+              //     }
+              //   })
+
+              // }
+              // console.log(games);
+              //FIN PROBLEMA
 
               const ultimoGame = games.sort((a, b) => b.numero - a.numero)[0];
               this.ultimoGame = ultimoGame;
+              
               return ultimoGame;
             }),
             switchMap((ultimoGame) => {
@@ -200,16 +221,21 @@ export class PartidoPage implements OnInit {
         this.ultimoSet = response.sets[response.sets.length -1];
         if (this.ultimoSet.Id) {
           this.apiGames.getGamesPorSet(this.ultimoSet.Id).subscribe((response:any) => {
-            this.ultimoGame = response.games[response.games.length - 1];
-            this.apiPuntos.getPuntosPorGame(this.ultimoGame.id).subscribe((response:any) => {
-              if(response.puntos.length === 0){
-                this.ultimoPunto = {idGame:this.ultimoGame.id, marcador1: 0, marcador2: 0};
-              }else{
-                this.ultimoPunto = response.puntos[response.puntos.length -1];
-              }
-
-              this.primerSaque = true;
-            })
+            if(response.games.length === 0){
+              console.log('Aqui lo que ocurre es que tenemos un nuevo set (con su nuevo id) sin games. games.length == 0');
+            }else{
+              this.ultimoGame = response.games[response.games.length - 1];
+              this.apiPuntos.getPuntosPorGame(this.ultimoGame.id).subscribe((response:any) => {
+                if(response.puntos.length === 0){
+                  this.ultimoPunto = {idGame:this.ultimoGame.id, marcador1: 0, marcador2: 0};
+                }else{
+                  this.ultimoPunto = response.puntos[response.puntos.length -1];
+                }
+  
+                this.primerSaque = true;
+              })
+              
+            }
           })
         }
       });
@@ -291,16 +317,12 @@ export class PartidoPage implements OnInit {
 
   const manejarEvento = () => {
     if (sacador!== undefined) {
-      console.log('no es undefined');
       if(!this.partido.nombre4){
-        console.log('es singulares');
-        // console.log('marcador1:',marcador1,' marcador2: ', marcador2, 'equipo1Sacador: ', equipo1Sacador);
         if (marcador1 > marcador2 && this.partido.nombre1 === sacador) {
           this.createEvento(this.jugadores[0], 13);
         } else if (marcador2 > marcador1 && this.partido.nombre1 === sacador) {
           this.createEvento(this.jugadores[1], 14);
         } else if (marcador1 > marcador2 && this.partido.nombre1 !== sacador) {
-          console.log('se creo el evento de JUEGO_RESTO_GANADO');
           this.createEvento(this.jugadores[0], 14);
         } else if (marcador2 > marcador1 && this.partido.nombre1 !== sacador) {
           this.createEvento(this.jugadores[1], 13);
@@ -363,14 +385,30 @@ export class PartidoPage implements OnInit {
         }
         this.apiGames.createGame(nuevoGame).subscribe((response:any) => {
           if(response.ok){
-            this.sacador = this.partido.nombre1 === this.sacador ? this.partido.nombre2 : this.partido.nombre1;
+            if(this.partido.nombre4 ){
+              if(this.sacador==this.partido.nombre1)
+              this.sacador = this.partido.nombre3;
+
+              if(this.sacador==this.partido.nombre2)
+                this.sacador = this.partido.nombre4;
+
+              if(this.sacador==this.partido.nombre3)
+                this.sacador = this.partido.nombre2;
+
+              if(this.sacador==this.partido.nombre4)
+                this.sacador = this.partido.nombre1;
+            }else{
+              this.sacador = this.partido.nombre1 === this.sacador ? this.partido.nombre2 : this.partido.nombre1;
+            }
             this.ultimoGame = response.game;
+
           }
         });
       }
     });
   }
 
+  
   createNuevoGame(){
     let nuevoGame = {
       idSet: this.ultimoSet.Id, 
@@ -379,14 +417,38 @@ export class PartidoPage implements OnInit {
     }
     if(this.ultimoPunto.marcador1 === 60)
       nuevoGame.marcador1++;
-
+    
     if(this.ultimoPunto.marcador2 === 60)
       nuevoGame.marcador2++;
-
-
+    
+    
     this.apiGames.createGame(nuevoGame).subscribe((response:any) => {
       if(response.ok){
-        this.sacador = this.partido.nombre1 === this.sacador ? this.partido.nombre2 : this.partido.nombre1;
+        if(this.partido.nombre4 != undefined){
+          let cambiado = false;
+          if(this.sacador==this.partido.nombre1 && !cambiado){
+            this.sacador = this.partido.nombre3;
+            cambiado = true;
+          }
+          
+          if(this.sacador==this.partido.nombre2 && !cambiado){
+            this.sacador = this.partido.nombre4;
+            cambiado = true;
+          }
+          
+          if(this.sacador==this.partido.nombre3 && !cambiado){
+            this.sacador = this.partido.nombre2;
+            cambiado = true;
+          }
+          
+          if(this.sacador==this.partido.nombre4 && !cambiado){
+            this.sacador = this.partido.nombre1;
+            cambiado = true;
+          }
+          
+        }else{
+          this.sacador = this.partido.nombre1 === this.sacador ? this.partido.nombre2 : this.partido.nombre1;
+        }
         this.ultimoGame = response.game;
         let setActualizado = {
           idPartido: this.partidoId, 
@@ -398,18 +460,31 @@ export class PartidoPage implements OnInit {
             this.actualizarIds();
             if(this.setTerminado()){
               this.partidoTerminado();
-
-
               
               this.createNuevoSet();
             }
-          }else{
           }
         })
-
+        
         
       }
     })
+  }
+
+  crearGameEspecial(){
+    let nuevoGame = {
+      idSet: this.ultimoSet.Id, 
+      marcador1: this.ultimoGame.marcador1, 
+      marcador2: this.ultimoGame.marcador2
+    }
+
+    this.apiGames.createGame(nuevoGame).subscribe((response: any) =>  {
+      if(response.ok){
+        console.log('game especial: ',response);
+      }
+    })
+
+
   }
 
   createEventos(id:any, n:number[]){
@@ -467,15 +542,32 @@ export class PartidoPage implements OnInit {
         this.crearPuntoConEventoEquipo1(punto, lista);
       }
     }else if(this.sacador === this.partido.nombre2){
+      let lista;
+      if(this.estado == 'saque1'){
+        lista = [1, 3, 4, 11];
+      }else if(this.estado == 'saque2'){
+        lista = [1, 5, 11];
+      }
+
+      if(!this.partido.nombre4){
+        const punto = this.sumarPuntoJugador2(this.ultimoPunto);
+        this.crearPuntoConEventoEquipo2(punto, lista);
+      }else{
+        const punto = this.sumarPuntoJugador1(this.ultimoPunto);
+        this.crearPuntoConEventoEquipo1(punto, lista);
+
+      }
+
+      
+    }else{
       const punto = this.sumarPuntoJugador2(this.ultimoPunto);
       let lista;
       if(this.estado == 'saque1'){
         lista = [1, 3, 4, 11];
-        this.crearPuntoConEventoEquipo2(punto, lista);
       }else if(this.estado == 'saque2'){
         lista = [1, 5, 11];
-        this.crearPuntoConEventoEquipo2(punto, lista);
       }
+      this.crearPuntoConEventoEquipo2(punto, lista);
     }
     this.estado = 'saque1';
     this.primerSaque = true;
@@ -496,12 +588,13 @@ export class PartidoPage implements OnInit {
       }
     
     }else if(this.sacador === this.partido.nombre2){
-      const punto = this.sumarPuntoJugador1(this.ultimoPunto);
-
+      
       if(!this.partido.nombre4){
+        const punto = this.sumarPuntoJugador1(this.ultimoPunto);
         this.crearPuntoConEventoEquipo2(punto, lista);
         this.createEventos(this.jugadores[0], lista2); 
       }else{
+        const punto = this.sumarPuntoJugador2(this.ultimoPunto);
         this.crearPuntoConEventoEquipo1(punto, lista);
         this.createEventos(this.jugadores[3], lista2); 
       }
@@ -529,7 +622,6 @@ export class PartidoPage implements OnInit {
       this.crearPuntoConEventoEquipo1(punto, lista);
       
     }else if(this.sacador === this.partido.nombre2){
-      const punto = this.sumarPuntoJugador2(this.ultimoPunto);
       let lista = [11];
       if(this.estado == 'saque1'){
         lista.push(3);
@@ -538,8 +630,10 @@ export class PartidoPage implements OnInit {
         lista.push(5);
       }
       if(!this.partido.nombre4){
+        const punto = this.sumarPuntoJugador2(this.ultimoPunto);
         this.crearPuntoConEventoEquipo2(punto, lista);
       }else{
+        const punto = this.sumarPuntoJugador1(this.ultimoPunto);
         this.crearPuntoConEventoEquipo1(punto, lista);
       }
     
@@ -576,8 +670,6 @@ export class PartidoPage implements OnInit {
      
       
     }else if(this.sacador === this.partido.nombre2){
-      const punto = this.sumarPuntoJugador1(this.ultimoPunto);
-      console.log('el putno es:', punto);
       let listaResto = [12,8];
       let listaSaque = [];
       if(this.estado == 'saque1'){
@@ -587,15 +679,17 @@ export class PartidoPage implements OnInit {
         listaResto.push(7);
       }
       if(!this.partido.nombre4){
+        const punto = this.sumarPuntoJugador1(this.ultimoPunto);
         this.crearPuntoConEventoEquipo1(punto, listaResto);
         this.createEventos(this.jugadores[1], listaSaque);
       }else{
+        const punto = this.sumarPuntoJugador2(this.ultimoPunto);
         this.crearPuntoConEventoEquipo2(punto, listaResto);
         this.createEventos(this.jugadores[1], listaSaque);
       }
     
     }else{
-      const punto = this.sumarPuntoJugador2(this.ultimoPunto);
+      const punto = this.sumarPuntoJugador1(this.ultimoPunto);
       let listaResto = [12,8];
       let listaSaque = [];
       if(this.estado == 'saque1'){
@@ -605,7 +699,7 @@ export class PartidoPage implements OnInit {
         listaResto.push(7);
       }
       this.crearPuntoConEventoEquipo1(punto, listaResto);
-      this.createEventos(this.jugadores[3], listaSaque)
+      this.createEventos(this.jugadores[3], listaSaque);
       
     }
     this.estado = 'saque1';
@@ -829,7 +923,9 @@ export class PartidoPage implements OnInit {
   }
  
   addSaque(nombre: string){
+    
     this.sacador = nombre;
+  
     this.estado = 'saque1';
     this.primerSaque = true;
   }

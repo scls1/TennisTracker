@@ -11,6 +11,7 @@ import { SetService } from 'src/app/services/set.service';
 import { PartidoService } from 'src/app/services/partido.service';
 import { Router } from '@angular/router';
 import { GameService } from 'src/app/services/game.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-create-partido',
@@ -51,7 +52,7 @@ export class CreatePartidoPage implements OnInit {
   public isModalOpen = false;
   public isDark = localStorage.getItem('dark-mode') === 'true';
 
-
+  public apiUrl: string = environment.apiUrl;
   public activeButton: number | null = null;
   public selectedPlayerNombre: string | null = null;
   public confirmedPlayerNombre1: string | null = null;

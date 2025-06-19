@@ -6,7 +6,7 @@
   
     <ion-list style="border-radius: 20px; padding: 30px;">
         <ion-item class="avatar-uploader"  (click)="fileInput.click()" lines="none">
-            <img [src]="player.photo && player.photo !== '' ? 'assets/images/' + player.photo : 'assets/images/default.jpg'" alt="Avatar">
+            <img [src]="player.photo && player.photo !== '' ? apiUrl + 'images/' + player.photo : 'assets/images/default.jpg'" alt="Avatar">
         </ion-item>
         <input type="file" hidden (change)="onPhotoSelected($event)" #fileInput accept="image/*">
   

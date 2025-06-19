@@ -45,4 +45,21 @@ export class JugadorService {
     return this.http.post(`${this.apiUrl}`,JSON.stringify(jugador),this.httpOptions).pipe(retry(2),catchError(this.handleError));
   }
 
+  updateJugador(id: number, jugador: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, JSON.stringify(jugador),this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+
+  deleteJugador(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`,this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
+
+  subirFoto(file: File) {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    return this.http.post(`${this.apiUrl}upload`, formData, {headers: new HttpHeaders({
+      'x-token': localStorage.getItem('token') || ''
+    })}).pipe(retry(2),catchError(this.handleError));
+  }
+
 }

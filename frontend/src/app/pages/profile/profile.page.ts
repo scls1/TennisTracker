@@ -8,6 +8,9 @@ import { jwtDecode } from 'jwt-decode';
 import { JugadorService } from 'src/app/services/jugador.service';
 import { PartidoService } from 'src/app/services/partido.service';
 import { SetService } from 'src/app/services/set.service';
+import { addIcons } from 'ionicons';
+import { cloudUploadOutline } from 'ionicons/icons';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -38,6 +41,7 @@ export class ProfilePage implements OnInit {
   private userId: number | undefined = undefined;
   private jugadores: number[] = [];
 
+  public apiUrl: string = environment.apiUrl;
   public userFoto: string = '';
   public userName: string = '';
   public numJugadores: number = 0;
@@ -47,7 +51,11 @@ export class ProfilePage implements OnInit {
   public doblesGanados : number = 0;
 
 
-  constructor() { }
+  constructor() {
+    addIcons({
+      cloudUploadOutline
+    })
+   }
 
   ngOnInit() {
     if (this.token) {
@@ -110,4 +118,31 @@ export class ProfilePage implements OnInit {
       
   }
 
+  onPhotoSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.jugadorService.subirFoto(file).subscribe((response:any) => {
+        if(response.ok){
+          this.userFoto = response.file.filename;
+          const user = {
+            Foto: this.userFoto
+          } 
+          
+          console.log(user)
+          if(this.userId)
+            this.entrenadorService.updateUsuario(this.userId, user).subscribe((response:any) => {
+              if(response.ok){
+                console.log(response);
+              }else{
+                console.log('error al actualizar');
+              }
+            });
+        }else{
+          console.error('Error al subir la imagen:', response);
+        }  
+      
+    });
+        
+    }
+  }
 }

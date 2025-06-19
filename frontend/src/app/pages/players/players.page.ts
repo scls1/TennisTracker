@@ -8,6 +8,7 @@ import { accessibilityOutline, calendarOutline, femaleOutline, funnelOutline, ma
 import { JugadorService } from 'src/app/services/jugador.service';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-players',
@@ -43,6 +44,7 @@ export class PlayersPage implements OnInit {
   private token: string | null = null;
   private userId : number | undefined = undefined;
 
+  public apiUrl: string = environment.apiUrl;
   public buscador: string = '';
   public nombres: string[] = [];
   public jugadores: any[] = [];

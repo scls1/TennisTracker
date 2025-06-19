@@ -228,7 +228,8 @@ const updatePartido = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: "Partido actualizado correctamente"
+            msg: "Partido actualizado correctamente",
+            partido: existePartido
         });
 
     } catch (error) {

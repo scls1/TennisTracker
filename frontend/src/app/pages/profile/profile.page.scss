@@ -32,5 +32,72 @@
   .start{
     align-self: center;
     justify-self: center;
-    margin-top: 25%;
+    margin: 5%;
   }
+
+ion-avatar{
+  max-width: 200px;
+  max-height: 200px;
+  align-content: center;
+  justify-content: center;
+}
+
+
+
+
+
+  .estadisticas-svg {
+  display: flex;
+  justify-content: space-around;
+  padding: 16px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.estadistica-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle-chart {
+  width: 130px;
+  height: 130px;
+  transform: rotate(-90deg);
+}
+
+.circle-chart .circle {
+  fill: none;
+  stroke: #4caf50;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  animation: progress 1s ease-out forwards;
+}
+
+.circle-chart.static .bg {
+  fill: none;
+  stroke: #2196f3;
+  stroke-width: 2.8;
+}
+
+.chart-number {
+  font-size: 0.6em;
+  fill: #333;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  transform: rotate(90deg);
+  transform-origin: center;
+}
+
+.chart-label {
+  margin-top: 8px;
+  font-weight: 600;
+  color: #555;
+  text-align: center;
+}
+
+@keyframes progress {
+  0% {
+    stroke-dasharray: 0 100;
+  }
+}

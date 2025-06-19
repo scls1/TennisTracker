@@ -89,13 +89,7 @@ const updateUsuario = async (req, res) => {
         }
         
 
-        const passValida = bcrypt.compareSync(Clave, existeUsuario.Clave);
-        if(!passValida){
-            return res.status(400).json({
-                ok: false,
-                msg: 'Error al actualizar usuario PASS'
-            });
-        }
+        
 
 
         // Actualizar usuario
@@ -108,7 +102,8 @@ const updateUsuario = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: "Usuario actualizado correctamente"
+            msg: "Usuario actualizado correctamente",
+            user: existeUsuario
         });
 
     } catch (error) {

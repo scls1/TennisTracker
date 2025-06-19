@@ -19,6 +19,7 @@ app.use('/api/eventos', require('./routes/eventos'));
 app.use('/api/sets', require('./routes/sets'));
 app.use('/api/games', require('./routes/games'));
 app.use('/api/puntos', require('./routes/puntos'));
+app.use('/api/images', express.static('tmp/images'));
 
 // Abrir la aplicacíon en el puerto 3000
 app.listen(3000, () => {

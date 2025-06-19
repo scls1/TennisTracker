@@ -14,23 +14,26 @@ export class UsuarioService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'aplplication/json',
+      'Content-Type': 'application/json',
       'x-token': localStorage.getItem('token') || ''
     })
   }
 
   handleError(error: HttpErrorResponse){
     if (error.error instanceof ErrorEvent) {
-          console.log("Ha ocurrido un error: ",error, error.message);
-        
-        }else {
-          console.error("Codigo Error $ {error.status}, "+"Body: ${error.error}");
-        }
-      
-        return throwError ('Ha sucedido un problema, reintentalo más tarde');
+      console.log("Ha ocurrido un error: ",error, error.message);
+    }else {
+      console.error("Codigo Error $ {error.status}, "+"Body: ${error.error}");
     }
+    
+    return throwError ('Ha sucedido un problema, reintentalo más tarde');
+  }
 
-    getUsuario(idUsuario?:number):Observable<any>{
-      return this.http.get(`${this.apiUrl}${idUsuario}`, this.httpOptions).pipe(retry(2), catchError(this.handleError));
-    }
+  getUsuario(idUsuario?:number):Observable<any>{
+    return this.http.get(`${this.apiUrl}${idUsuario}`, this.httpOptions).pipe(retry(2), catchError(this.handleError));
+  }
+
+  updateUsuario(id: number, usuario: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}${id}`, JSON.stringify(usuario),this.httpOptions).pipe(retry(2),catchError(this.handleError));
+  }
 }

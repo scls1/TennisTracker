@@ -19,7 +19,7 @@
         <ng-container *ngFor="let jugador of allPlayers">
           <ion-item class="item-modal" [class.selected]="jugador.IdJugador === selectedPlayerId" (click)="addPlayer(jugador.IdJugador, jugador.Nombre)">
             <ion-avatar>
-              <img [src]="'assets/images/' + jugador.Foto" alt="Foto de un jugador de tenis de la aplicación Breakpoint tennis tracker" />
+              <img [src]="apiUrl + 'images/' + jugador.Foto" alt="Foto de un jugador de tenis de la aplicación Breakpoint tennis tracker" />
             </ion-avatar>
             <ion-title>{{jugador.Nombre}}</ion-title>
           </ion-item>

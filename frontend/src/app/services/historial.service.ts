@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 })
 export class HistorialService {
   private rutasIgnoradas = ['/login', '/registro'];
+  partidoTerminado: boolean | null = null;
 
   constructor() { }
 
@@ -33,12 +34,27 @@ goBack(router: Router) {
   const previousUrl = history.pop(); // anterior
 
   if (previousUrl) {
+    console.log(previousUrl);
     localStorage.setItem('nav-history', JSON.stringify(history));
-    router.navigateByUrl(previousUrl);
+    if(previousUrl.startsWith('/detalle-partido/')){
+      window.location.href=previousUrl;
+    }else{
+      router.navigateByUrl(previousUrl);
+    }
   } else {
     console.warn('No hay historial para volver.');
     // Opcional: router.navigate(['/home']); o donde quieras llevar por defecto
   }
+
+  
+}
+
+setPartidoTerminado(bool:boolean){
+  this.partidoTerminado = bool;
+}
+
+getPartidoTerminado(): boolean | null{
+  return this.partidoTerminado;
 }
 
 }

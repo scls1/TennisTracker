@@ -6,6 +6,7 @@ import { TopbarComponent } from 'src/app/topbar/topbar.component';
 import { JugadorService } from 'src/app/services/jugador.service';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-create-player',
@@ -20,6 +21,7 @@ export class CreatePlayerPage implements OnInit {
   private token: string | null = null;
   private userId : number | undefined = undefined;
   
+  public apiUrl: string = environment.apiUrl;
   public player:any;
   public nameError: string = '';
   public ageError: string = '';
@@ -42,6 +44,8 @@ export class CreatePlayerPage implements OnInit {
       photo: '',
     };
 
+    console.log('this.player.photo: ',this.player.photo);
+
     
   }
 
@@ -51,8 +55,17 @@ export class CreatePlayerPage implements OnInit {
   onPhotoSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      console.log(file.name);
-      this.player.photo = file.name; 
+      this.apiJugador.subirFoto(file).subscribe((response:any) => {
+        if(response.ok){
+          console.log('Imagen subida correctamente:', response);
+          this.player.photo = response.file.filename;
+          console.log(this.player.photo);
+
+        }else{
+          console.error('Error al subir la imagen:', response);
+        }  
+      
+    });
         
     }
   }
@@ -64,7 +77,7 @@ export class CreatePlayerPage implements OnInit {
       this.heightError = '';
       await this.comprobarCampos();
       
-      if(this.nameError==='' || this.ageError==='' || this.heightError===''){
+      if(this.nameError==='' && this.ageError==='' && this.heightError===''){
         
         if(this.userId){
           
@@ -100,5 +113,6 @@ export class CreatePlayerPage implements OnInit {
     if (this.player.height === '' ) {
       this.heightError = 'This field is requiered'; 
     }
+
   }
 }

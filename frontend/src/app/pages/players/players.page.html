@@ -4,7 +4,7 @@
   <ion-grid>
     <ion-row class="ion-align-items-center">
       <!-- Search bar a la izquierda -->
-      <ion-col size="10">
+      <ion-col size="12">
         <ion-searchbar
           [debounce]="100"
           placeholder="search players..."
@@ -15,9 +15,7 @@
       </ion-col>
 
       <!-- Icono de filtro a la derecha -->
-      <ion-col size="2" class="ion-text-end">
-        
-      </ion-col>
+     
     </ion-row>
     
   </ion-grid>
@@ -33,7 +31,7 @@
 
               <ion-col size="4" class="foto-container">
                 <ion-avatar>
-                  <img [src]="'assets/images/' + jugador.Foto" alt="Foto de un jugador de tenis de la aplicación Breakpoint tennis tracker" />
+                  <img [src]="apiUrl + 'images/' + jugador.Foto" alt="Foto de un jugador de tenis de la aplicación Breakpoint tennis tracker" />
                 </ion-avatar>
               </ion-col>
               

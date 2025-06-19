@@ -11,6 +11,7 @@ import { SetService } from 'src/app/services/set.service';
 import { GameService } from 'src/app/services/game.service';
 import { PuntoService } from 'src/app/services/punto.service';
 import { EventoService } from 'src/app/services/evento.service';
+import { HistorialService } from 'src/app/services/historial.service';
 
 @Component({
   selector: 'app-detalle-partido',
@@ -26,6 +27,7 @@ export class DetallePartidoPage implements OnInit {
   apiGames = inject(GameService);
   apiPuntos = inject(PuntoService);
   apiEventos = inject(EventoService);
+  apiHistorial = inject(HistorialService);
 
   private idString: string | null = null;
   private partidoId: number;
@@ -68,14 +70,15 @@ export class DetallePartidoPage implements OnInit {
   constructor(private route: ActivatedRoute) {
     this.idString = this.route.snapshot.paramMap.get('id');
     this.partidoId = Number(this.idString);
-   }
-
-   ionViewWillEnter() {
+  }
+  
+  ionViewWillEnter() {
     this.isDark = localStorage.getItem('dark-mode') === 'true';
   }
-
+  
   ngOnInit() {
     this.loadPartidoDetalle();
+    this.partidoTerminado();
   }
 
 
@@ -185,6 +188,46 @@ export class DetallePartidoPage implements OnInit {
       map((response: any) => response.jugador.Nombre)
     );
   }
+
+  partidoTerminado() {
+  if (this.partidoId) {
+    let partidoAcabado = false;
+    this.apiSets.getSetsPorPartido(this.partidoId).subscribe((response: any) => {
+      let setsJugador1 = 0;
+      let setsJugador2 = 0;
+
+      const setGanado = (marcador1: number, marcador2: number): boolean => {
+        if (marcador1 >= 6 || marcador2 >= 6) {
+          if (Math.abs(marcador1 - marcador2) >= 2) {
+            return true;
+          }
+          if (marcador1 === 7 || marcador2 === 7) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      for (let set of response.sets) {
+
+        if (setGanado(set.marcador1, set.marcador2)) {
+          if (set.marcador1 > set.marcador2) {
+            setsJugador1++;
+          } else if (set.marcador2 > set.marcador1) {
+            setsJugador2++;
+          }
+        }
+
+        // Si uno gana 2 sets válidos, se termina el partido
+        if (setsJugador1 === 2 || setsJugador2 === 2) {
+          partidoAcabado = true;
+          break; // Salimos del bucle porque ya no hace falta seguir
+        }
+      }
+      this.apiHistorial.setPartidoTerminado(partidoAcabado);
+    });
+  }
+  } 
 
   cargarEstadisticas(){
     for(let i=0; i<this.jugadores.length; i++){

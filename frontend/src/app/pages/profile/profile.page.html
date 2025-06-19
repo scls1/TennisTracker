@@ -2,10 +2,58 @@
 
 <ion-content >
   <ion-avatar>
-    <img alt="Profile image of one of the coaches of Breakpoint Tennis Tracker" [src]="'assets/images/' + userFoto" />
+    <img alt="Profile image of one of the coaches of Breakpoint Tennis Tracker" [src]="userFoto && userFoto !== '' ? apiUrl + 'images/' + userFoto : 'assets/images/default.jpg' " />
   </ion-avatar>
-  <ion-title >{{userName}}</ion-title>
-  <div class="estadisticas">
+  <div class="start">
+    <ion-button size="medium" color="secondary" class="upload-button" (click)="fileInput.click()">
+      <ion-icon name="cloud-upload-outline"  style="margin-right: 8px;"></ion-icon>
+    Change Photo
+  </ion-button>
+  <input type="file" hidden #fileInput (change)="onPhotoSelected($event)" accept="image/*" />
+  </div>
+  <ion-title class="perfil-title">{{ userName }}</ion-title>
+
+  
+<div class="estadisticas-svg">
+  <div class="estadistica-box">
+    <svg viewBox="0 0 36 36" class="circle-chart static">
+      <circle class="bg" cx="18" cy="18" r="15.9155"/>
+      <text x="18" y="20.35" class="chart-number">{{ numJugadores }}</text>
+    </svg>
+    <p class="chart-label">Players</p>
+  </div>
+
+  <div class="estadistica-box">
+    <svg viewBox="0 0 36 36" class="circle-chart">
+      <path
+        class="circle"
+        [attr.stroke-dasharray]="(individuales.length > 0 ? (individualesGanados / individuales.length) * 100 : 0) + ', 100'"
+        d="M18 2.0845
+           a 15.9155 15.9155 0 0 1 0 31.831
+           a 15.9155 15.9155 0 0 1 0 -31.831"
+      />
+      <text x="18" y="20.35" class="chart-number">{{ individualesGanados }}/{{ individuales.length }}</text>
+    </svg>
+    <p class="chart-label">Singles</p>
+  </div>
+
+  <div class="estadistica-box">
+    <svg viewBox="0 0 36 36" class="circle-chart">
+      <path
+        class="circle"
+        [attr.stroke-dasharray]="(dobles.length > 0 ? (doblesGanados / dobles.length) * 100 : 0) + ', 100'"
+        d="M18 2.0845
+           a 15.9155 15.9155 0 0 1 0 31.831
+           a 15.9155 15.9155 0 0 1 0 -31.831"
+      />
+      <text x="18" y="20.35" class="chart-number">{{ doblesGanados }}/{{ dobles.length }}</text>
+    </svg>
+    <p class="chart-label">Doubles</p>
+  </div>
+</div>
+
+
+<!-- <div class="estadisticas">
     <div>
       <h3>{{numJugadores}}</h3>
       <h3>Players</h3>
@@ -21,5 +69,5 @@
   </div>
   <div class="start">
     <ion-button size="large"  color="secondary" disabled>Start</ion-button>
-  </div>
+  </div> -->
 </ion-content>

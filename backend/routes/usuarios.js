@@ -16,10 +16,6 @@ router.post('/', [
 ],createUsuario);
 
 router.put('/:id', [
-    check('Nombre', 'El argumento nombre es obligatorio').not().isEmpty(),
-    check('Email', 'El argumento email es obligatorio').not().isEmpty(),
-    check('Email', 'Formato de email invalido').isEmail(),
-    check('Clave', 'El argumento clave es obligatorio').not().isEmpty(),
     check('id', 'El argumento id es obligatorio').notEmpty(),
     validarCampos,
     validarJWT
