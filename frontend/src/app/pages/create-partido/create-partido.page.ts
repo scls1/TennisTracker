@@ -101,7 +101,6 @@ export class CreatePartidoPage implements OnInit {
 
   ngOnInit() {
     this.loadPlayers();
-    console.log(this.isModalOpen)
   }
 
   ionViewWillEnter() {
@@ -232,7 +231,6 @@ export class CreatePartidoPage implements OnInit {
   setOpen(isOpen: boolean, boton?:number) {
     this.activeButton = boton ? boton : null;
     this.isModalOpen = isOpen;
-    console.log(this.isModalOpen);
   }
 
   async mostrarError(error?: string) {

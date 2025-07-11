@@ -231,7 +231,8 @@ const updateEvento = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: "Evento actualizado correctamente"
+            msg: "Evento actualizado correctamente",
+            evento: existeEvento
         });
 
     } catch (error) {

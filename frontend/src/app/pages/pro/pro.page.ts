@@ -19,10 +19,6 @@ export class ProPage implements OnInit {
   ngOnInit() {
   }
   
-  ionViewWillEnter() {
-    this.isDark = localStorage.getItem('dark-mode') === 'true';
-  }
-
   async comingSoon(){
     const alert = await this.alertController.create({
     header: 'Coming Soon!',

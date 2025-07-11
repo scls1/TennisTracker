@@ -44,7 +44,7 @@ const EventosPartido = sequelize.define('EventosPartido', {
         allowNull: false
     }
 }, {
-    tableName: 'Eventos_partido',
+    tableName: 'eventos_partido',
     timestamps: false
 });
 

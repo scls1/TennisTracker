@@ -200,7 +200,8 @@ const updateGame = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: "Game actualizado correctamente"
+            msg: "Game actualizado correctamente",
+            game
         });
 
     } catch (error) {

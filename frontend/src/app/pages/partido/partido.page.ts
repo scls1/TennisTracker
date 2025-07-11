@@ -548,17 +548,13 @@ export class PartidoPage implements OnInit {
       }else if(this.estado == 'saque2'){
         lista = [1, 5, 11];
       }
-
       if(!this.partido.nombre4){
         const punto = this.sumarPuntoJugador2(this.ultimoPunto);
         this.crearPuntoConEventoEquipo2(punto, lista);
       }else{
         const punto = this.sumarPuntoJugador1(this.ultimoPunto);
         this.crearPuntoConEventoEquipo1(punto, lista);
-
       }
-
-      
     }else{
       const punto = this.sumarPuntoJugador2(this.ultimoPunto);
       let lista;

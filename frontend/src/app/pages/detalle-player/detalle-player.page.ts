@@ -45,23 +45,15 @@ export class DetallePlayerPage implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    
-
     this.idString = this.route.snapshot.paramMap.get('id');
     this.playerId = Number(this.idString);
-    console.log('El ID del jugador es:', this.playerId);
 
     if(this.playerId){
       this.apiJugadores.getJugadorPorId(this.playerId).subscribe((res:any) => {
         this.nombre = res.jugador.Nombre;
       });
-
       this.cargarStats();
-
-      
-
     }
-    
   }
 
   cargarStats(){

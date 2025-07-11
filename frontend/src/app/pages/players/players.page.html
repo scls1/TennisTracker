@@ -9,7 +9,7 @@
           [debounce]="100"
           placeholder="search players..."
           [(ngModel)]="buscador"
-          (ionInput)="filtrarPartidos($event)"
+          (ionInput)="filtrarJugadores($event)"
           animated
         ></ion-searchbar>
       </ion-col>
@@ -28,15 +28,13 @@
         <ion-card class="jugador-card" color="light"  (click)="goToDetail(jugador.IdJugador)">
           <ion-grid>
             <ion-row class="ion-align-items-center">
-
               <ion-col size="4" class="foto-container">
                 <ion-avatar>
                   <img [src]="apiUrl + 'images/' + jugador.Foto" alt="Foto de un jugador de tenis de la aplicación Breakpoint tennis tracker" />
                 </ion-avatar>
               </ion-col>
-              
-              <ion-col size="6" class="info-linea">
-                
+
+              <ion-col size="6" class="info-linea"> 
                 <div class="info-titulo">
                   <h2 class="nombre-jugador">{{ jugador.Nombre }}</h2>
                   @if( jugador.Genero ){
@@ -45,23 +43,17 @@
                     <ion-icon class="icon-genero male" name="male-outline"></ion-icon>
                   }
                 </div>
-
                 <ion-row class="info-linea">
-                  
                   <ion-col size="6">
                     <ion-icon name="accessibility-outline"></ion-icon>
                     <span>{{ jugador.Altura }} m</span>
                   </ion-col>
-
                   <ion-col size="6">
                     <ion-icon name="calendar-outline"></ion-icon>
                     <span> {{ jugador.Edad }} yrs</span>
                   </ion-col>  
-                
                 </ion-row>  
-
               </ion-col>
-                 
             </ion-row>
           </ion-grid>
         </ion-card>

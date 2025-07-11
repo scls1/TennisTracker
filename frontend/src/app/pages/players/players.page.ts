@@ -78,7 +78,7 @@ export class PlayersPage implements OnInit {
   }
  
 
-  filtrarPartidos(event: Event){
+  filtrarJugadores(event: Event){
     const target = event.target as HTMLIonSearchbarElement;
     const query = target.value?.toLowerCase() || '';
     this.results = this.nombres.filter((d) => d.toLowerCase().includes(query));

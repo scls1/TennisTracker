@@ -1,5 +1,3 @@
-const { crearNuevoGame } = require('../helpers/crearNuevoGame');
-const { gameTerminado } = require('../helpers/gameTerminado');
 const { puntoActualizadoValido } = require('../helpers/puntoActualizadoValido');
 const { puntoValido } = require('../helpers/puntoValido');
 const Game = require('../models/game');
@@ -261,7 +259,8 @@ const updatePunto = async (req, res) => {
 
         res.json({
             ok: true,
-            msg: "Punto actualizado correctamente"
+            msg: "Punto actualizado correctamente",
+            punto
         });
 
     } catch (error) {

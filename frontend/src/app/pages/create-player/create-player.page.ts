@@ -44,8 +44,6 @@ export class CreatePlayerPage implements OnInit {
       photo: '',
     };
 
-    console.log('this.player.photo: ',this.player.photo);
-
     
   }
 
@@ -76,11 +74,8 @@ export class CreatePlayerPage implements OnInit {
       this.ageError = '';
       this.heightError = '';
       await this.comprobarCampos();
-      
       if(this.nameError==='' && this.ageError==='' && this.heightError===''){
-        
         if(this.userId){
-          
           let nuevoJugador = {
             Nombre: player.name,
             Genero: player.gender.toString(),
@@ -89,22 +84,19 @@ export class CreatePlayerPage implements OnInit {
             Foto: player.photo,
             Entrenador: this.userId,
           };
-          
           this.apiJugador.createJugador(nuevoJugador).subscribe((res:any) => {
             console.log(res);
             window.location.href = '/players';
           });
-          
         }
-          
       }
     } catch (error) {
         console.log('error');
     }
   }
     
-    async comprobarCampos(){
-      if (this.player.name === '') {
+  async comprobarCampos(){
+    if (this.player.name === '') {
       this.nameError = 'This filed is requiered';
     }
     if (this.player.age === '' ) {
@@ -113,6 +105,5 @@ export class CreatePlayerPage implements OnInit {
     if (this.player.height === '' ) {
       this.heightError = 'This field is requiered'; 
     }
-
   }
 }

@@ -294,7 +294,6 @@ export class CreateResultadoPage implements OnInit {
   for (const set of sets) {
     const marcador1 = set.jugador1 ?? 0;
     const marcador2 = set.jugador2 ?? 0;
-
     // Si ya hay un ganador, los siguientes sets deben ser 0-0
     if (ganadorEncontrado) {
       if (marcador1 !== 0 || marcador2 !== 0) {
@@ -302,13 +301,11 @@ export class CreateResultadoPage implements OnInit {
       }
       continue;
     }
-
     if (marcador1 > marcador2) {
       setsJugador1++;
     } else if (marcador2 > marcador1) {
       setsJugador2++;
     }
-
     // Si alguno ha ganado ya el partido
     if (setsJugador1 === setsNecesariosParaGanar || setsJugador2 === setsNecesariosParaGanar) {
       ganadorEncontrado = true;
@@ -348,17 +345,17 @@ export class CreateResultadoPage implements OnInit {
     }
 
     setTerminado(marcador1:number, marcador2:number){
-    if ((marcador1 === 6 && marcador2 <= 4) || (marcador2 === 6 && marcador1 <= 4)) {
-        return true;
-    }
+      if ((marcador1 === 6 && marcador2 <= 4) || (marcador2 === 6 && marcador1 <= 4)) {
+          return true;
+      }
 
-    if ((marcador1 === 7 && (marcador2 === 5 || marcador2 === 6)) || 
-        (marcador2 === 7 && (marcador1 === 5 || marcador1 === 6))) {
-        return true;
-    }
+      if ((marcador1 === 7 && (marcador2 === 5 || marcador2 === 6)) || 
+          (marcador2 === 7 && (marcador1 === 5 || marcador1 === 6))) {
+          return true;
+      }
 
-    return false;
-}
+      return false;
+    }
 
   setsValidos(sets:any): boolean {
     let setAcabado = true;
@@ -382,8 +379,6 @@ export class CreateResultadoPage implements OnInit {
       esValido = false;
     }else{
     }
-
-    
 
     return esValido;
   }
@@ -427,7 +422,6 @@ export class CreateResultadoPage implements OnInit {
           const marcador2 = set.jugador2;
 
           if ((marcador1 !== null || marcador2 !== null) && (marcador1 !== 0 && marcador2 !== 0)) {
-            console.log('entro');
             resultadoFinal.push({
               idPartido: idPartido,
               marcador1: marcador1 ? marcador1 : 0,
@@ -443,7 +437,7 @@ export class CreateResultadoPage implements OnInit {
               marcador2: 0
             });
         }
-        console.log(resultadoFinal);
+        
         for(const set of resultadoFinal){
           this.apiSet.createSet(set).subscribe((res:any) => {
             if(response.ok){

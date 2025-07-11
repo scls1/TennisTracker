@@ -126,9 +126,7 @@ export class ProfilePage implements OnInit {
           this.userFoto = response.file.filename;
           const user = {
             Foto: this.userFoto
-          } 
-          
-          console.log(user)
+          }    
           if(this.userId)
             this.entrenadorService.updateUsuario(this.userId, user).subscribe((response:any) => {
               if(response.ok){
@@ -140,9 +138,7 @@ export class ProfilePage implements OnInit {
         }else{
           console.error('Error al subir la imagen:', response);
         }  
-      
     });
-        
     }
   }
 }

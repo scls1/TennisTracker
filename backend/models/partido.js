@@ -69,7 +69,7 @@ const Partido = sequelize.define('Partido', {
     allowNull: true
   }
 }, {
-  tableName: 'Partidos',
+  tableName: 'partidos',
   timestamps: false
 });
 

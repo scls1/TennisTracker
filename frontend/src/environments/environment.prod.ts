@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://simaosantos.pt/api/'
+  apiUrl: 'https://simaosantos.ddns.net/api/'
 };
